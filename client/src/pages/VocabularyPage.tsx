@@ -12,7 +12,7 @@ export default function VocabularyPage() {
 
   return (
     <div className="container mx-auto py-8 px-4">
-      <div className="flex items-center mb-6  sticky">
+      <div className="flex items-center mb-6 sticky top-0 z-10 py-4 bg-background">
         <Button
           variant="outline"
           size="icon"
