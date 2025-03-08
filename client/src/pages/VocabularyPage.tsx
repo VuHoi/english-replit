@@ -11,8 +11,8 @@ export default function VocabularyPage() {
   const [_, navigate] = useLocation();
 
   return (
-    <div className="container mx-auto py-8 px-4">
-      <div className="flex items-center mb-6 sticky top-0 z-10 py-4 bg-background">
+    <div className="container mx-auto py-8">
+      <div className="flex items-center mb-6 sticky top-0  z-[1000] py-4 bg-background">
         <Button
           variant="outline"
           size="icon"
@@ -26,7 +26,7 @@ export default function VocabularyPage() {
         </div>
       </div>
 
-      <div className="mt-6">
+      <div className="mt-6 ">
         <VocabularyModule
           onScoreChange={(score) => {
             const scoreElement = document.getElementById("vocab-score");
