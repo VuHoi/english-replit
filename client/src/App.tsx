@@ -5,6 +5,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import HomePage from "@/pages/HomePage";
 import VocabularyPage from "@/pages/VocabularyPage";
+import TopicsPage from "@/pages/TopicsPage";
 import GrammarPage from "@/pages/GrammarPage";
 import SpeakingPage from "@/pages/SpeakingPage";
 import WritingPage from "@/pages/WritingPage";
@@ -14,6 +15,7 @@ function Router() {
     <Switch>
       <Route path="/" component={HomePage} />
       <Route path="/vocabulary" component={VocabularyPage} />
+      <Route path="/topics" component={TopicsPage} />
       <Route path="/grammar" component={GrammarPage} />
       <Route path="/speaking" component={SpeakingPage} />
       <Route path="/writing" component={WritingPage} />

@@ -13,7 +13,7 @@ export default function HomePage() {
       title: "Vocabulary",
       description: "Learn new words and expand your vocabulary",
       icon: <Book className="h-8 w-8" />,
-      path: "/vocabulary",
+      path: "/topics",
       progress: 40
     },
     {

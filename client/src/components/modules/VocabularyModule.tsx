@@ -12,7 +12,15 @@ import useEmblaCarousel from "embla-carousel-react";
 
 const WORDS_PER_SESSION = 10;
 
-export function VocabularyModule({ onScoreChange = (score: number) => {} }) {
+interface VocabularyModuleProps {
+  topic?: string;
+  onScoreChange?: (score: number) => void;
+}
+
+export function VocabularyModule({ 
+  topic, 
+  onScoreChange = (score: number) => {} 
+}: VocabularyModuleProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     dragFree: false,
     containScroll: "keepSnaps",
@@ -28,12 +36,24 @@ export function VocabularyModule({ onScoreChange = (score: number) => {} }) {
 
   // Initialize session words
   useEffect(() => {
-    const randomWords = [...vocabulary.words]
+    // Filter words by topic if provided
+    const filteredWords = topic 
+      ? vocabulary.words.filter(w => w.topic === topic)
+      : vocabulary.words;
+      
+    const randomWords = [...filteredWords]
       .sort(() => Math.random() - 0.5)
-      .slice(0, WORDS_PER_SESSION)
+      .slice(0, Math.min(filteredWords.length, WORDS_PER_SESSION))
       .map((w) => w.id);
+    
     setSessionWords(randomWords);
-  }, []);
+    setLearned(new Set()); // Reset learned words when topic changes
+    
+    // Reset to first slide when topic changes
+    if (emblaApi) {
+      emblaApi.scrollTo(0);
+    }
+  }, [topic, emblaApi]);
 
   // Handle slide changes
   useEffect(() => {
