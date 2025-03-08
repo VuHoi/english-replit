@@ -27,6 +27,13 @@
 
   .transform-style-3d {
     transform-style: preserve-3d;
+
+/* Perspective effect for card flipping */
+.perspective-card {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
   }
 
   .bg-grid-primary {
