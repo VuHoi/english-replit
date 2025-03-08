@@ -1,6 +1,5 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Book, BookOpen, Mic, Pencil } from "lucide-react";
+import { Book, BookOpen, Mic, Pencil, PuzzlePiece } from "lucide-react";
 import { useLocation } from "wouter";
 import { TurtleProgress } from "@/components/shared/TurtleProgress";
 
@@ -39,6 +38,14 @@ export default function HomePage() {
       icon: <Pencil className="h-8 w-8" />,
       path: "/writing",
       progress: 65
+    },
+    {
+      id: "category-game",
+      title: "Category Game",
+      description: "Match words to their categories",
+      icon: <PuzzlePiece className="h-8 w-8" />,
+      path: "/category-game",
+      progress: 0 // Add initial progress
     }
   ];
 
@@ -48,7 +55,7 @@ export default function HomePage() {
         English Learning Hub
       </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
         {modules.map((module) => (
           <Card 
             key={module.id} 

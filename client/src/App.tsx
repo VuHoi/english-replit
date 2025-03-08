@@ -1,4 +1,3 @@
-
 import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient"; 
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -9,6 +8,7 @@ import TopicsPage from "@/pages/TopicsPage";
 import GrammarPage from "@/pages/GrammarPage";
 import SpeakingPage from "@/pages/SpeakingPage";
 import WritingPage from "@/pages/WritingPage";
+import CategoryGamePage from "@/pages/CategoryGamePage"; // Added import
 
 function Router() {
   return (
@@ -19,6 +19,7 @@ function Router() {
       <Route path="/grammar" component={GrammarPage} />
       <Route path="/speaking" component={SpeakingPage} />
       <Route path="/writing" component={WritingPage} />
+      <Route path="/category-game" component={CategoryGamePage} /> {/* Added route */}
       {/* Keep the NotFound route as fallback */}
       <Route component={() => <div>404 Not Found</div>} />
     </Switch>
