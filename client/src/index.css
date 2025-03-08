@@ -28,4 +28,25 @@
   .transform-style-3d {
     transform-style: preserve-3d;
   }
+
+  .bg-grid-primary {
+    background-image: linear-gradient(to right, theme('colors.primary.DEFAULT/10') 1px, transparent 1px),
+                      linear-gradient(to bottom, theme('colors.primary.DEFAULT/10') 1px, transparent 1px);
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
 }
