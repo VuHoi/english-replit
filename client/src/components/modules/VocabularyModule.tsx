@@ -1,29 +1,41 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { vocabulary } from "@/data/content";
-import { ProgressBar } from "@/components/shared/ProgressBar";
+import { TurtleProgress } from "@/components/shared/TurtleProgress";
 import { AudioPlayer } from "@/components/shared/AudioPlayer";
 import { ChevronLeft, ChevronRight, RotateCw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import confetti from 'canvas-confetti';
 
+const WORDS_PER_SESSION = 10;
+
 export function VocabularyModule() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [learned, setLearned] = useState<Set<string>>(new Set());
+  const [sessionWords, setSessionWords] = useState<string[]>([]);
   const { toast } = useToast();
 
-  const currentWord = vocabulary.words[currentIndex];
+  // Initialize session words
+  useEffect(() => {
+    const randomWords = [...vocabulary.words]
+      .sort(() => Math.random() - 0.5)
+      .slice(0, WORDS_PER_SESSION)
+      .map(w => w.id);
+    setSessionWords(randomWords);
+  }, []);
+
+  const currentWord = vocabulary.words.find(w => w.id === sessionWords[currentIndex]) || vocabulary.words[0];
 
   const next = () => {
-    setCurrentIndex((i) => (i + 1) % vocabulary.words.length);
+    setCurrentIndex((i) => (i + 1) % sessionWords.length);
     setFlipped(false);
   };
 
   const previous = () => {
-    setCurrentIndex((i) => (i - 1 + vocabulary.words.length) % vocabulary.words.length);
+    setCurrentIndex((i) => (i - 1 + sessionWords.length) % sessionWords.length);
     setFlipped(false);
   };
 
@@ -59,9 +71,11 @@ export function VocabularyModule() {
     });
   };
 
+  const isSessionComplete = learned.size === WORDS_PER_SESSION;
+
   return (
     <div className="space-y-6">
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden rounded-xl p-4">
         {/* Animated background */}
         <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-indigo-950">
           <div className="absolute inset-0 bg-grid-primary/20 bg-[size:20px_20px]" />
@@ -72,10 +86,10 @@ export function VocabularyModule() {
           animate={{ opacity: 1, y: 0 }}
           className="relative"
         >
-          <ProgressBar 
+          <TurtleProgress 
             value={learned.size} 
-            max={vocabulary.words.length}
-            label="Từ vựng đã học" 
+            max={WORDS_PER_SESSION}
+            label="Tiến độ học tập" 
           />
         </motion.div>
 
@@ -87,23 +101,20 @@ export function VocabularyModule() {
             exit={{ opacity: 0, x: -100 }}
             transition={{ duration: 0.3 }}
           >
-            <Card className="w-full max-w-2xl mx-auto backdrop-blur-sm bg-white/90 dark:bg-gray-950/90 border-none shadow-xl">
+            <Card className="mt-6 w-full max-w-2xl mx-auto backdrop-blur-sm bg-white/90 dark:bg-gray-950/90 border-none shadow-xl">
               <CardHeader>
                 <CardTitle className="text-center bg-gradient-to-r from-primary to-indigo-600 bg-clip-text text-transparent">
                   Flashcards
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                {/* Flashcard container with perspective */}
                 <div className="relative preserve-3d" style={{ perspective: "1000px" }}>
-                  {/* Card inner container with flip animation */}
                   <div
                     className={`relative w-full min-h-[300px] sm:min-h-[400px] cursor-pointer transition-transform duration-500 ease-in-out transform-style-3d ${
                       flipped ? "rotate-y-180" : ""
                     }`}
                     onClick={() => setFlipped(!flipped)}
                   >
-                    {/* Front of card */}
                     <div className="absolute w-full h-full backface-hidden bg-white dark:bg-gray-900 rounded-xl shadow-lg">
                       <div className="flex flex-col items-center justify-center h-full p-4 sm:p-6 space-y-4">
                         <motion.h3 
@@ -131,7 +142,6 @@ export function VocabularyModule() {
                       </div>
                     </div>
 
-                    {/* Back of card */}
                     <div className="absolute w-full h-full backface-hidden rotate-y-180 bg-white dark:bg-gray-900 rounded-xl shadow-lg">
                       <div className="flex flex-col items-center justify-center h-full p-4 sm:p-6 space-y-4">
                         <div className="text-center space-y-4">
@@ -157,9 +167,7 @@ export function VocabularyModule() {
                   </div>
                 </div>
 
-                {/* Controls */}
                 <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-8">
-                  {/* Navigation buttons - stack on mobile */}
                   <div className="flex w-full sm:w-auto gap-2">
                     <Button 
                       variant="outline" 
@@ -179,7 +187,6 @@ export function VocabularyModule() {
                     </Button>
                   </div>
 
-                  {/* Action buttons - center on mobile */}
                   <div className="flex gap-2">
                     <Button
                       variant={learned.has(currentWord.id) ? "default" : "outline"}
@@ -206,6 +213,35 @@ export function VocabularyModule() {
             </Card>
           </motion.div>
         </AnimatePresence>
+        {isSessionComplete && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="absolute inset-0 bg-white/95 dark:bg-gray-950/95 backdrop-blur-sm flex items-center justify-center rounded-xl"
+          >
+            <div className="text-center space-y-4">
+              <h3 className="text-2xl font-bold text-green-600 dark:text-green-400">
+                🎉 Chúc mừng! 🎉
+              </h3>
+              <p className="text-muted-foreground">
+                Bạn đã hoàn thành {WORDS_PER_SESSION} từ trong phiên học này!
+              </p>
+              <Button
+                onClick={() => {
+                  setLearned(new Set());
+                  const newRandomWords = [...vocabulary.words]
+                    .sort(() => Math.random() - 0.5)
+                    .slice(0, WORDS_PER_SESSION)
+                    .map(w => w.id);
+                  setSessionWords(newRandomWords);
+                  setCurrentIndex(0);
+                }}
+              >
+                Bắt đầu phiên mới
+              </Button>
+            </div>
+          </motion.div>
+        )}
       </div>
     </div>
   );
