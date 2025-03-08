@@ -17,9 +17,9 @@ interface VocabularyModuleProps {
   onScoreChange?: (score: number) => void;
 }
 
-export function VocabularyModule({ 
-  topic, 
-  onScoreChange = (score: number) => {} 
+export function VocabularyModule({
+  topic,
+  onScoreChange = (score: number) => {},
 }: VocabularyModuleProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     dragFree: false,
@@ -32,23 +32,22 @@ export function VocabularyModule({
   const [learned, setLearned] = useState<Set<string>>(new Set());
   const [sessionWords, setSessionWords] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const { toast } = useToast();
 
   // Initialize session words
   useEffect(() => {
     // Filter words by topic if provided
-    const filteredWords = topic 
-      ? vocabulary.words.filter(w => w.topic === topic)
+    const filteredWords = topic
+      ? vocabulary.words.filter((w: any) => w.topic === topic)
       : vocabulary.words;
-      
+
     const randomWords = [...filteredWords]
       .sort(() => Math.random() - 0.5)
       .slice(0, Math.min(filteredWords.length, WORDS_PER_SESSION))
       .map((w) => w.id);
-    
+
     setSessionWords(randomWords);
     setLearned(new Set()); // Reset learned words when topic changes
-    
+
     // Reset to first slide when topic changes
     if (emblaApi) {
       emblaApi.scrollTo(0);
