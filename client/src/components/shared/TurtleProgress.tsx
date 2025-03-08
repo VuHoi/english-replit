@@ -10,7 +10,7 @@ interface TurtleProgressProps {
 
 export function TurtleProgress({ value, max, label }: TurtleProgressProps) {
   const percentage = Math.round((value / max) * 100);
-  
+
   return (
     <div className="w-full space-y-2">
       {label && (
@@ -37,11 +37,11 @@ export function TurtleProgress({ value, max, label }: TurtleProgressProps) {
           </motion.div>
         </motion.div>
       )}
-      
+
       <div className="relative h-8 bg-muted rounded-full overflow-hidden">
         <Progress value={percentage} className="h-full" />
-        
-        {/* Turtle SVG */}
+
+        {/* Animated Turtle */}
         <motion.div
           className="absolute top-1/2 -translate-y-1/2"
           initial={{ x: "0%" }}

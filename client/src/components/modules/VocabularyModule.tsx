@@ -213,6 +213,8 @@ export function VocabularyModule() {
             </Card>
           </motion.div>
         </AnimatePresence>
+
+        {/* Victory celebration screen */}
         {isSessionComplete && (
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -220,11 +222,78 @@ export function VocabularyModule() {
             className="absolute inset-0 bg-white/95 dark:bg-gray-950/95 backdrop-blur-sm flex items-center justify-center rounded-xl"
           >
             <div className="text-center space-y-4">
+              <motion.div
+                animate={{
+                  y: [0, -10, 0],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              >
+                {/* Victory Turtle with Medal */}
+                <svg
+                  width="120"
+                  height="120"
+                  viewBox="0 0 120 120"
+                  fill="none"
+                  className="mx-auto"
+                >
+                  {/* Turtle Body */}
+                  <motion.circle
+                    cx="60"
+                    cy="60"
+                    r="40"
+                    fill="#10B981"
+                    animate={{
+                      scale: [1, 1.1, 1],
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                  />
+                  {/* Shell Pattern */}
+                  <motion.path
+                    d="M80 60C80 70.5 71.5 79 61 79C50.5 79 42 70.5 42 60C42 49.5 50.5 41 61 41C71.5 41 80 49.5 80 60Z"
+                    stroke="#064E3B"
+                    strokeWidth="3"
+                    animate={{
+                      rotate: 360,
+                    }}
+                    transition={{
+                      duration: 20,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
+                  />
+                  {/* Medal */}
+                  <motion.g
+                    animate={{
+                      scale: [1, 1.2, 1],
+                    }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                  >
+                    <circle cx="85" cy="45" r="15" fill="#EAB308" />
+                    <path
+                      d="M85 35L89 40L95 41L90 45L91 51L85 48L79 51L80 45L75 41L81 40L85 35Z"
+                      fill="#FEF3C7"
+                    />
+                  </motion.g>
+                </svg>
+              </motion.div>
+
               <h3 className="text-2xl font-bold text-green-600 dark:text-green-400">
-                🎉 Chúc mừng! 🎉
+                🎉 Chúc mừng chiến thắng! 🎉
               </h3>
               <p className="text-muted-foreground">
-                Bạn đã hoàn thành {WORDS_PER_SESSION} từ trong phiên học này!
+                Bạn đã hoàn thành xuất sắc {WORDS_PER_SESSION} từ trong phiên học này!
               </p>
               <Button
                 onClick={() => {
@@ -236,6 +305,7 @@ export function VocabularyModule() {
                   setSessionWords(newRandomWords);
                   setCurrentIndex(0);
                 }}
+                className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
               >
                 Bắt đầu phiên mới
               </Button>
