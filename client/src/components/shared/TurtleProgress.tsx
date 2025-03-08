@@ -1,6 +1,6 @@
-
 import { motion, AnimatePresence } from "framer-motion";
 import { Trophy } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
 
 interface TurtleProgressProps {
   value: number;
@@ -38,122 +38,79 @@ export function TurtleProgress({ value, max, label }: TurtleProgressProps) {
         </motion.div>
       )}
 
-      <div className="relative h-16 bg-gradient-to-r from-sky-100 to-blue-100 dark:from-sky-950 dark:to-blue-900 rounded-xl overflow-hidden border border-blue-200 dark:border-blue-800">
-        {/* Path/Road */}
-        <div className="absolute w-full h-2 bg-slate-300 dark:bg-slate-700 top-1/2 -translate-y-1/2"></div>
-        
+      {/* Game-like race track */}
+      <div className="race-track relative h-16 bg-gradient-to-r from-green-100 to-green-200 dark:from-green-950 dark:to-green-900 rounded-lg overflow-hidden border border-green-300 dark:border-green-800">
         {/* Finish line */}
-        <div className="absolute right-2 top-0 bottom-0 flex items-center">
-          <div className="w-3 h-10 bg-red-500 opacity-80 relative">
-            <div className="absolute w-full h-full bg-white opacity-50 grid grid-rows-4">
-              <div className="bg-red-500"></div>
-              <div className="bg-white"></div>
-              <div className="bg-red-500"></div>
-              <div className="bg-white"></div>
-            </div>
-          </div>
+        <div className="finish-line absolute right-0 h-full w-2 bg-gradient-to-b from-red-500 via-white to-red-500 flex items-center justify-center z-10">
+          <div className="checkered-flag h-8 w-8 absolute -left-6 bg-contain bg-no-repeat" style={{ backgroundImage: 'url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIGZpbGw9ImJsYWNrIi8+PHJlY3QgeD0iMTAiIHk9IjEwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIGZpbGw9ImJsYWNrIi8+PHJlY3QgeD0iMTAiIHdpZHRoPSIxMCIgaGVpZ2h0PSIxMCIgZmlsbD0id2hpdGUiLz48cmVjdCB5PSIxMCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==")' }}></div>
         </div>
-        
-        {/* Progress indicator */}
-        <div 
-          className="absolute h-2 bg-primary top-1/2 -translate-y-1/2 left-0"
-          style={{ width: `${percentage}%` }}
-        ></div>
-        
-        {/* Animated Turtle */}
-        <motion.div
-          className="absolute top-1/2 -translate-y-1/2"
-          initial={{ x: "5%" }}
-          animate={{ x: `${percentage}%` }}
-          transition={{ type: "spring", stiffness: 60, damping: 20 }}
-        >
-          <motion.div
-            animate={{ y: [0, -2, 0, 2, 0] }}
-            transition={{ repeat: Infinity, duration: 1.5 }}
-            className="relative"
-          >
-            <svg width="40" height="30" viewBox="0 0 40 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-              {/* Shell */}
-              <motion.ellipse 
-                cx="20" cy="15" rx="14" ry="12" 
-                fill="#2ecc71" 
-                animate={{ scale: [1, 1.03, 1] }}
-                transition={{ repeat: Infinity, duration: 1.5 }}
-              />
-              
-              {/* Shell pattern */}
-              <path d="M20 8C21 10 25 11 25 15C25 19 21 20 20 22C19 20 15 19 15 15C15 11 19 10 20 8Z" fill="#27ae60" />
-              
-              {/* Head */}
-              <motion.path 
-                d="M33 15C33 12.5 32 11 30 10C31 12 31 14 30 15C29 16 28 15 27 15.5C26 16 25 19 28 19C31 19 33 17.5 33 15Z" 
-                fill="#3edc81"
-                animate={{ x: [0, 1, 0], rotate: [0, 5, 0] }}
-                transition={{ repeat: Infinity, duration: 1.5 }}
-              />
-              
-              {/* Tail */}
-              <motion.path 
-                d="M7 15C7 12.5 8 11 10 10C9 12 9 14 10 15C11 16 12 15 13 15.5C14 16 15 19 12 19C9 19 7 17.5 7 15Z" 
-                fill="#3edc81"
-                animate={{ x: [0, -1, 0], rotate: [0, -5, 0] }}
-                transition={{ repeat: Infinity, duration: 1.5 }}
-              />
-              
-              {/* Legs */}
-              <motion.g
-                animate={{ 
-                  y: [0, 1, 0],
-                  x: [0, 0.5, 0]
-                }}
-                transition={{ repeat: Infinity, duration: 0.75 }}
-              >
-                <ellipse cx="11" cy="9" rx="3" ry="2" fill="#3edc81" />
-                <ellipse cx="11" cy="21" rx="3" ry="2" fill="#3edc81" />
-              </motion.g>
-              <motion.g
-                animate={{ 
-                  y: [0, -1, 0],
-                  x: [0, 0.5, 0]
-                }}
-                transition={{ repeat: Infinity, duration: 0.75, delay: 0.375 }}
-              >
-                <ellipse cx="29" cy="9" rx="3" ry="2" fill="#3edc81" />
-                <ellipse cx="29" cy="21" rx="3" ry="2" fill="#3edc81" />
-              </motion.g>
-              
-              {/* Eye */}
-              <circle cx="31" cy="13" r="1" fill="black" />
-            </svg>
-          </motion.div>
-        </motion.div>
-        
-        {/* Progress sparkles */}
-        <div className="absolute inset-0">
-          {Array.from({ length: 10 }).map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute top-1/2 -translate-y-1/2 w-1 h-1 rounded-full bg-yellow-300"
-              initial={{ 
-                left: `${Math.min(percentage, 95)}%`, 
-                opacity: 0, 
-                scale: 0 
-              }}
-              animate={{ 
-                left: [`${Math.min(percentage, 95)}%`, `${Math.min(percentage + Math.random() * 5, 95)}%`],
-                y: [0, -10 - Math.random() * 15],
-                opacity: [0, 1, 0],
-                scale: [0, 1, 0]
-              }}
-              transition={{
-                duration: 1 + Math.random(),
-                repeat: Infinity,
-                delay: i * 0.2,
-                ease: "easeOut"
-              }}
-            />
+
+        {/* Lane markings */}
+        <div className="lane-markings absolute left-0 right-0 top-1/2 h-1 flex justify-between">
+          {[...Array(10)].map((_, i) => (
+            <div key={i} className="h-full w-6 bg-white opacity-70" style={{ marginLeft: `${i * 10}%` }}></div>
           ))}
         </div>
+
+        {/* Turtle character */}
+        <motion.div 
+          className="turtle absolute bottom-2"
+          initial={{ x: 0 }}
+          animate={{ x: `${percentage - 3}%` }}
+          transition={{ 
+            type: "spring", 
+            stiffness: 60, 
+            damping: 20,
+            mass: 1
+          }}
+        >
+          <svg width="40" height="30" viewBox="0 0 50 40" className="drop-shadow-lg">
+            <motion.g
+              animate={value === max ? {
+                y: [0, -10, 0],
+                rotate: [0, 10, -10, 0]
+              } : {}}
+              transition={{
+                duration: 0.8,
+                repeat: value === max ? Infinity : 0,
+                repeatType: "loop"
+              }}
+            >
+              {/* Turtle body */}
+              <ellipse cx="25" cy="25" rx="20" ry="15" fill="#2E7D32" />
+              <ellipse cx="25" cy="25" rx="16" ry="12" fill="#43A047" />
+              <ellipse cx="25" cy="25" rx="12" ry="8" fill="#66BB6A" />
+
+              {/* Turtle head */}
+              <circle cx="42" cy="20" r="6" fill="#66BB6A" />
+              <circle cx="43" cy="18" r="1.5" fill="black" />
+              <path d="M45 20.5C45 20.5 46 21 46 22C46 23 45 23.5 45 23.5" stroke="black" strokeWidth="0.7" fill="none" />
+
+              {/* Turtle legs */}
+              <ellipse cx="15" cy="15" rx="5" ry="3" fill="#66BB6A" transform="rotate(-30 15 15)" />
+              <ellipse cx="15" cy="35" rx="5" ry="3" fill="#66BB6A" transform="rotate(30 15 35)" />
+              <ellipse cx="35" cy="15" rx="5" ry="3" fill="#66BB6A" transform="rotate(30 35 15)" />
+              <ellipse cx="35" cy="35" rx="5" ry="3" fill="#66BB6A" transform="rotate(-30 35 35)" />
+
+              {/* Turtle tail */}
+              <path d="M5 25C5 25 2 25 2 25C2 25 3 27 5 25Z" fill="#66BB6A" />
+            </motion.g>
+          </svg>
+        </motion.div>
+
+        {value === max && (
+          <motion.div 
+            className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 to-yellow-600/20"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: [0, 0.7, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+          />
+        )}
+      </div>
+
+      {/* Actual progress bar (invisible but needed for accessibility) */}
+      <div className="opacity-0 absolute">
+        <Progress value={percentage} className="h-1" />
       </div>
 
       {/* Motivational messages */}
