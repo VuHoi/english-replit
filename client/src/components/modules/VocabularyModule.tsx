@@ -60,57 +60,68 @@ export function VocabularyModule() {
           <div className="relative preserve-3d" style={{ perspective: "1000px" }}>
             {/* Card inner container with flip animation */}
             <div
-              className={`relative w-full min-h-[300px] cursor-pointer transition-transform duration-500 ease-in-out transform-style-3d ${
+              className={`relative w-full min-h-[300px] sm:min-h-[400px] cursor-pointer transition-transform duration-500 ease-in-out transform-style-3d ${
                 flipped ? "rotate-y-180" : ""
               }`}
               onClick={() => setFlipped(!flipped)}
             >
               {/* Front of card */}
               <div className="absolute w-full h-full backface-hidden">
-                <div className="flex flex-col items-center justify-center h-full p-6 space-y-4">
-                  <h3 className="text-4xl font-bold text-center">{currentWord.word}</h3>
-                  <p className="text-xl text-muted-foreground">{currentWord.phonetic}</p>
+                <div className="flex flex-col items-center justify-center h-full p-4 sm:p-6 space-y-4">
+                  <h3 className="text-2xl sm:text-4xl font-bold text-center">{currentWord.word}</h3>
+                  <p className="text-lg sm:text-xl text-muted-foreground">{currentWord.phonetic}</p>
                   <div className="mt-4">
                     <AudioPlayer 
                       audioUrl={currentWord.audioUrl} 
                       onError={handleAudioError}
                     />
                   </div>
-                  <p className="text-sm text-muted-foreground mt-4">Click to see definition</p>
+                  <p className="text-sm text-muted-foreground mt-4">Chạm để xem nghĩa</p>
                 </div>
               </div>
 
               {/* Back of card */}
               <div className="absolute w-full h-full backface-hidden rotate-y-180">
-                <div className="flex flex-col items-center justify-center h-full p-6 space-y-4">
+                <div className="flex flex-col items-center justify-center h-full p-4 sm:p-6 space-y-4">
                   <div className="text-center space-y-4">
-                    <h3 className="text-2xl font-bold">{currentWord.definition}</h3>
+                    <h3 className="text-xl sm:text-2xl font-bold">{currentWord.definition}</h3>
                     <div className="space-y-2">
-                      <p className="text-lg font-medium">Example:</p>
-                      <p className="text-muted-foreground italic">"{currentWord.example}"</p>
+                      <p className="text-base sm:text-lg font-medium">Ví dụ:</p>
+                      <p className="text-sm sm:text-base text-muted-foreground italic">"{currentWord.example}"</p>
                     </div>
                     <div className="space-y-2">
-                      <p className="text-lg font-medium">Context:</p>
-                      <p className="text-muted-foreground">"{currentWord.context}"</p>
+                      <p className="text-base sm:text-lg font-medium">Ngữ cảnh:</p>
+                      <p className="text-sm sm:text-base text-muted-foreground">"{currentWord.context}"</p>
                     </div>
                   </div>
-                  <p className="text-sm text-muted-foreground mt-4">Click to see word</p>
+                  <p className="text-sm text-muted-foreground mt-4">Chạm để xem từ</p>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="flex justify-between items-center mt-8">
-            <Button variant="outline" onClick={previous}>
-              <ChevronLeft className="h-4 w-4 mr-2" />
-              Previous
-            </Button>
+          {/* Controls */}
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-8">
+            {/* Navigation buttons - stack on mobile */}
+            <div className="flex w-full sm:w-auto gap-2">
+              <Button variant="outline" onClick={previous} className="flex-1 sm:flex-none">
+                <ChevronLeft className="h-4 w-4 mr-2" />
+                <span className="hidden sm:inline">Trước</span>
+              </Button>
+              <Button variant="outline" onClick={next} className="flex-1 sm:flex-none">
+                <span className="hidden sm:inline">Tiếp</span>
+                <ChevronRight className="h-4 w-4 ml-2" />
+              </Button>
+            </div>
+
+            {/* Action buttons - center on mobile */}
             <div className="flex gap-2">
               <Button
                 variant={learned.has(currentWord.id) ? "default" : "outline"}
                 onClick={toggleLearned}
+                className="flex-1 sm:flex-none"
               >
-                {learned.has(currentWord.id) ? "Learned" : "Mark as Learned"}
+                {learned.has(currentWord.id) ? "Đã học" : "Đánh dấu đã học"}
               </Button>
               <Button
                 variant="outline"
@@ -120,10 +131,6 @@ export function VocabularyModule() {
                 <RotateCw className="h-4 w-4" />
               </Button>
             </div>
-            <Button variant="outline" onClick={next}>
-              Next
-              <ChevronRight className="h-4 w-4 ml-2" />
-            </Button>
           </div>
         </CardContent>
       </Card>
