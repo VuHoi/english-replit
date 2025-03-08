@@ -1,7 +1,7 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Book, BookOpen, Mic, Pencil, FileQuestion } from "lucide-react";
 import { useLocation } from "wouter";
-import { TurtleProgress } from "@/components/shared/TurtleProgress";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { BookOpen, BookText, Mic2, PenTool, Gamepad2 } from "lucide-react";
+import TurtleProgress from "@/components/TurtleProgress";
 
 export default function HomePage() {
   const [_, navigate] = useLocation();
@@ -10,42 +10,42 @@ export default function HomePage() {
     {
       id: "vocabulary",
       title: "Vocabulary",
-      description: "Learn new words and expand your vocabulary",
-      icon: <Book className="h-8 w-8" />,
-      path: "/topics",
-      progress: 40,
+      description: "Learn new words and expand your vocabulary.",
+      icon: <BookText className="h-5 w-5" />,
+      path: "/vocabulary",
+      progress: 35,
     },
     {
       id: "grammar",
       title: "Grammar",
-      description: "Master the rules of language structure",
-      icon: <BookOpen className="h-8 w-8" />,
-      path: "/grammar",
-      progress: 25,
+      description: "Master English grammar rules and structures.",
+      icon: <BookOpen className="h-5 w-5" />,
+      path: "/topics",
+      progress: 20,
+    },
+    {
+      id: "games",
+      title: "Games",
+      description: "Practice English with fun interactive games.",
+      icon: <Gamepad2 className="h-5 w-5" />,
+      path: "/games",
+      progress: 40,
     },
     {
       id: "speaking",
       title: "Speaking",
-      description: "Practice your pronunciation and fluency",
-      icon: <Mic className="h-8 w-8" />,
-      path: "/speaking",
-      progress: 10,
+      description: "Practice pronunciation and conversation skills.",
+      icon: <Mic2 className="h-5 w-5" />,
+      path: "/topics",
+      progress: 15,
     },
     {
       id: "writing",
       title: "Writing",
-      description: "Develop your writing skills and style",
-      icon: <Pencil className="h-8 w-8" />,
-      path: "/writing",
-      progress: 65,
-    },
-    {
-      id: "category-game",
-      title: "Category Game",
-      description: "Match words to their categories",
-      icon: <FileQuestion className="h-8 w-8" />,
-      path: "/category-game",
-      progress: 0, // Add initial progress
+      description: "Develop your writing skills with practical exercises.",
+      icon: <PenTool className="h-5 w-5" />,
+      path: "/topics",
+      progress: 10,
     },
   ];
 
