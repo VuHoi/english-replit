@@ -11,7 +11,10 @@ export function AudioPlayer({ audioUrl, onError }: AudioPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const togglePlay = () => {
+  const togglePlay = (e: React.MouseEvent) => {
+    // Prevent the click from reaching the parent (card flip)
+    e.stopPropagation();
+
     if (!audioRef.current) {
       audioRef.current = new Audio(audioUrl);
       audioRef.current.addEventListener('ended', () => setIsPlaying(false));
