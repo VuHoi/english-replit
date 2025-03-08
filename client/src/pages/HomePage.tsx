@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Book, BookOpen, Mic, Pencil, PuzzlePiece } from "lucide-react";
+import { Book, BookOpen, Mic, Pencil, FileQuestion } from "lucide-react";
 import { useLocation } from "wouter";
 import { TurtleProgress } from "@/components/shared/TurtleProgress";
 
@@ -13,7 +13,7 @@ export default function HomePage() {
       description: "Learn new words and expand your vocabulary",
       icon: <Book className="h-8 w-8" />,
       path: "/topics",
-      progress: 40
+      progress: 40,
     },
     {
       id: "grammar",
@@ -21,7 +21,7 @@ export default function HomePage() {
       description: "Master the rules of language structure",
       icon: <BookOpen className="h-8 w-8" />,
       path: "/grammar",
-      progress: 25
+      progress: 25,
     },
     {
       id: "speaking",
@@ -29,7 +29,7 @@ export default function HomePage() {
       description: "Practice your pronunciation and fluency",
       icon: <Mic className="h-8 w-8" />,
       path: "/speaking",
-      progress: 10
+      progress: 10,
     },
     {
       id: "writing",
@@ -37,16 +37,16 @@ export default function HomePage() {
       description: "Develop your writing skills and style",
       icon: <Pencil className="h-8 w-8" />,
       path: "/writing",
-      progress: 65
+      progress: 65,
     },
     {
       id: "category-game",
       title: "Category Game",
       description: "Match words to their categories",
-      icon: <PuzzlePiece className="h-8 w-8" />,
+      icon: <FileQuestion className="h-8 w-8" />,
       path: "/category-game",
-      progress: 0 // Add initial progress
-    }
+      progress: 0, // Add initial progress
+    },
   ];
 
   return (
@@ -57,8 +57,8 @@ export default function HomePage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
         {modules.map((module) => (
-          <Card 
-            key={module.id} 
+          <Card
+            key={module.id}
             className="cursor-pointer hover:shadow-lg transition-shadow"
             onClick={() => navigate(module.path)}
           >
@@ -71,9 +71,9 @@ export default function HomePage() {
                 {module.description}
               </p>
               <div className="pt-2">
-                <TurtleProgress 
-                  value={module.progress} 
-                  max={100} 
+                <TurtleProgress
+                  value={module.progress}
+                  max={100}
                   label={`${module.title} Progress`}
                 />
               </div>
