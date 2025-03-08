@@ -45,19 +45,27 @@ export function VocabularyModule() {
           <CardTitle className="text-center">Vocabulary Flashcards</CardTitle>
         </CardHeader>
         <CardContent>
-          <div 
-            className="min-h-[200px] flex items-center justify-center cursor-pointer"
-            onClick={() => setFlipped(!flipped)}
-          >
-            <div className="text-center">
-              <h3 className="text-2xl font-bold mb-2">
-                {flipped ? currentWord.definition : currentWord.word}
-              </h3>
-              {flipped && (
-                <p className="text-muted-foreground italic">
-                  {currentWord.example}
-                </p>
-              )}
+          {/* Flashcard container with perspective */}
+          <div className="relative preserve-3d" style={{ perspective: "1000px" }}>
+            {/* Card inner container with flip animation */}
+            <div
+              className={`relative w-full min-h-[200px] cursor-pointer transition-transform duration-500 ease-in-out transform-style-3d ${
+                flipped ? "rotate-y-180" : ""
+              }`}
+              onClick={() => setFlipped(!flipped)}
+            >
+              {/* Front of card */}
+              <div className="absolute w-full h-full backface-hidden flex items-center justify-center">
+                <h3 className="text-2xl font-bold text-center">{currentWord.word}</h3>
+              </div>
+
+              {/* Back of card */}
+              <div className="absolute w-full h-full backface-hidden rotate-y-180 flex items-center justify-center">
+                <div className="text-center">
+                  <h3 className="text-2xl font-bold mb-2">{currentWord.definition}</h3>
+                  <p className="text-muted-foreground italic">{currentWord.example}</p>
+                </div>
+              </div>
             </div>
           </div>
 
