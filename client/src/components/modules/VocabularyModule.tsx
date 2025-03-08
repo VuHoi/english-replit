@@ -163,9 +163,9 @@ export function VocabularyModule() {
               return (
                 <div 
                   key={word.id} 
-                  className="flex-[0_0_100%] h-full flex items-center justify-center px-4"
+                  className="flex-[0_0_100%] h-full flex items-center justify-center px-0"
                 >
-                  <Card className="w-full h-full max-w-4xl mx-auto backdrop-blur-sm bg-white/90 dark:bg-gray-950/90 border-none shadow-xl">
+                  <Card className="w-full h-full mx-auto backdrop-blur-sm bg-white/90 dark:bg-gray-950/90 border-none shadow-xl">
                     <CardContent className="h-full flex flex-col p-6">
                       <div className="flex-1 relative preserve-3d" style={{ perspective: "1000px" }}>
                         <div
@@ -265,25 +265,9 @@ export function VocabularyModule() {
         </div>
       </div>
        
-      {/* Slide indicator */}
-      <div className="mt-4 flex justify-center">
-        <div className="flex items-center gap-3">
-          <span className="text-lg font-medium">{currentIndex + 1} / {sessionWords.length}</span>
-          <div className="flex gap-1">
-            {sessionWords.map((_, idx) => (
-              <div 
-                key={idx} 
-                className={`h-2 rounded-full transition-all ${
-                  idx === currentIndex ? "w-6 bg-primary" : "w-2 bg-muted"
-                }`}
-                onClick={() => {
-                  setCurrentIndex(idx);
-                  emblaApi?.scrollTo(idx);
-                }}
-              />
-            ))}
-          </div>
-        </div>
+      {/* Current card counter (minimized) */}
+      <div className="absolute bottom-0 right-0 m-3 z-10 bg-background/80 px-2 py-1 rounded-full text-xs font-medium backdrop-blur-sm border border-border">
+        {currentIndex + 1} / {sessionWords.length}
       </div>
     </div>
   );

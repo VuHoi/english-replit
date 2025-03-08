@@ -3,7 +3,7 @@
 .vocabulary-carousel::after {
   content: "← Swipe →";
   position: absolute;
-  bottom: 15px;
+  bottom: 55px;
   left: 50%;
   transform: translateX(-50%);
   color: rgba(100, 100, 100, 0.3);
