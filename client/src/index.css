@@ -145,29 +145,6 @@
   transform-style: preserve-3d;
 }
 
-.card-scene {
-  perspective: 1000px;
-}
-
-.card-inner {
-  position: relative;
-  min-height: 300px;
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
-}
-
-.card-face {
-  backface-visibility: hidden;
-}
-
-.backface-hidden {
-  backface-visibility: hidden;
-}
-
-.vocabulary-game {
-  padding-bottom: 80px; /* Space for fixed bottom buttons */
-}
-
 /* Navigation controls */
 .carousel-button {
   background: rgba(255, 255, 255, 0.9);
