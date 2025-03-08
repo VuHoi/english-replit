@@ -52,21 +52,34 @@
 
   @keyframes turtle-walk {
     0% {
-      transform: rotate(0deg) translateY(0);
+      transform: rotate(0deg) translateY(0) translateX(0);
     }
     25% {
-      transform: rotate(5deg) translateY(-2px);
+      transform: rotate(3deg) translateY(-2px) translateX(1px);
     }
     75% {
-      transform: rotate(-5deg) translateY(2px);
+      transform: rotate(-3deg) translateY(2px) translateX(-1px);
     }
     100% {
-      transform: rotate(0deg) translateY(0);
+      transform: rotate(0deg) translateY(0) translateX(0);
     }
   }
 
   .animate-turtle {
-    animation: turtle-walk 1s ease-in-out infinite;
+    animation: turtle-walk 1.2s ease-in-out infinite;
+  }
+  
+  @keyframes finish-line-shine {
+    0%, 100% {
+      opacity: 0.7;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  
+  .animate-finish-line {
+    animation: finish-line-shine 2s ease-in-out infinite;
   }
 
   @keyframes sparkle {

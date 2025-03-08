@@ -1,4 +1,4 @@
-import { Progress } from "@/components/ui/progress";
+
 import { motion, AnimatePresence } from "framer-motion";
 import { Trophy } from "lucide-react";
 
@@ -38,68 +38,125 @@ export function TurtleProgress({ value, max, label }: TurtleProgressProps) {
         </motion.div>
       )}
 
-      <div className="relative h-8 bg-muted rounded-full overflow-hidden">
-        <Progress value={percentage} className="h-full" />
-
+      <div className="relative h-16 bg-gradient-to-r from-sky-100 to-blue-100 dark:from-sky-950 dark:to-blue-900 rounded-xl overflow-hidden border border-blue-200 dark:border-blue-800">
+        {/* Path/Road */}
+        <div className="absolute w-full h-2 bg-slate-300 dark:bg-slate-700 top-1/2 -translate-y-1/2"></div>
+        
+        {/* Finish line */}
+        <div className="absolute right-2 top-0 bottom-0 flex items-center">
+          <div className="w-3 h-10 bg-red-500 opacity-80 relative">
+            <div className="absolute w-full h-full bg-white opacity-50 grid grid-rows-4">
+              <div className="bg-red-500"></div>
+              <div className="bg-white"></div>
+              <div className="bg-red-500"></div>
+              <div className="bg-white"></div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Progress indicator */}
+        <div 
+          className="absolute h-2 bg-primary top-1/2 -translate-y-1/2 left-0"
+          style={{ width: `${percentage}%` }}
+        ></div>
+        
         {/* Animated Turtle */}
         <motion.div
           className="absolute top-1/2 -translate-y-1/2"
-          initial={{ x: "0%" }}
+          initial={{ x: "5%" }}
           animate={{ x: `${percentage}%` }}
-          transition={{ type: "spring", stiffness: 100, damping: 20 }}
+          transition={{ type: "spring", stiffness: 60, damping: 20 }}
         >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            className="drop-shadow-lg"
+          <motion.div
+            animate={{ y: [0, -2, 0, 2, 0] }}
+            transition={{ repeat: Infinity, duration: 1.5 }}
+            className="relative"
           >
-            <motion.path
-              d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z"
-              fill="#10B981"
-              animate={{
-                scale: [1, 1.2, 1],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-            <motion.path
-              d="M19 12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12C5 8.13401 8.13401 5 12 5C15.866 5 19 8.13401 19 12Z"
-              stroke="#064E3B"
-              strokeWidth="2"
-              strokeLinecap="round"
-              animate={{
-                rotate: [0, 360],
-              }}
-              transition={{
-                duration: 20,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-            />
-          </svg>
+            <svg width="40" height="30" viewBox="0 0 40 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              {/* Shell */}
+              <motion.ellipse 
+                cx="20" cy="15" rx="14" ry="12" 
+                fill="#2ecc71" 
+                animate={{ scale: [1, 1.03, 1] }}
+                transition={{ repeat: Infinity, duration: 1.5 }}
+              />
+              
+              {/* Shell pattern */}
+              <path d="M20 8C21 10 25 11 25 15C25 19 21 20 20 22C19 20 15 19 15 15C15 11 19 10 20 8Z" fill="#27ae60" />
+              
+              {/* Head */}
+              <motion.path 
+                d="M33 15C33 12.5 32 11 30 10C31 12 31 14 30 15C29 16 28 15 27 15.5C26 16 25 19 28 19C31 19 33 17.5 33 15Z" 
+                fill="#3edc81"
+                animate={{ x: [0, 1, 0], rotate: [0, 5, 0] }}
+                transition={{ repeat: Infinity, duration: 1.5 }}
+              />
+              
+              {/* Tail */}
+              <motion.path 
+                d="M7 15C7 12.5 8 11 10 10C9 12 9 14 10 15C11 16 12 15 13 15.5C14 16 15 19 12 19C9 19 7 17.5 7 15Z" 
+                fill="#3edc81"
+                animate={{ x: [0, -1, 0], rotate: [0, -5, 0] }}
+                transition={{ repeat: Infinity, duration: 1.5 }}
+              />
+              
+              {/* Legs */}
+              <motion.g
+                animate={{ 
+                  y: [0, 1, 0],
+                  x: [0, 0.5, 0]
+                }}
+                transition={{ repeat: Infinity, duration: 0.75 }}
+              >
+                <ellipse cx="11" cy="9" rx="3" ry="2" fill="#3edc81" />
+                <ellipse cx="11" cy="21" rx="3" ry="2" fill="#3edc81" />
+              </motion.g>
+              <motion.g
+                animate={{ 
+                  y: [0, -1, 0],
+                  x: [0, 0.5, 0]
+                }}
+                transition={{ repeat: Infinity, duration: 0.75, delay: 0.375 }}
+              >
+                <ellipse cx="29" cy="9" rx="3" ry="2" fill="#3edc81" />
+                <ellipse cx="29" cy="21" rx="3" ry="2" fill="#3edc81" />
+              </motion.g>
+              
+              {/* Eye */}
+              <circle cx="31" cy="13" r="1" fill="black" />
+            </svg>
+          </motion.div>
         </motion.div>
-
+        
         {/* Progress sparkles */}
-        <motion.div
-          className="absolute top-0 left-0 h-full w-2 bg-primary/50 blur-sm"
-          animate={{
-            x: [`${percentage}%`, `${percentage}%`],
-            opacity: [0, 1, 0],
-          }}
-          transition={{
-            duration: 1.5,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
+        <div className="absolute inset-0">
+          {Array.from({ length: 10 }).map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute top-1/2 -translate-y-1/2 w-1 h-1 rounded-full bg-yellow-300"
+              initial={{ 
+                left: `${Math.min(percentage, 95)}%`, 
+                opacity: 0, 
+                scale: 0 
+              }}
+              animate={{ 
+                left: [`${Math.min(percentage, 95)}%`, `${Math.min(percentage + Math.random() * 5, 95)}%`],
+                y: [0, -10 - Math.random() * 15],
+                opacity: [0, 1, 0],
+                scale: [0, 1, 0]
+              }}
+              transition={{
+                duration: 1 + Math.random(),
+                repeat: Infinity,
+                delay: i * 0.2,
+                ease: "easeOut"
+              }}
+            />
+          ))}
+        </div>
       </div>
 
-      {/* Motivational message */}
+      {/* Motivational messages */}
       <AnimatePresence>
         {value > 0 && value < max && (
           <motion.p
