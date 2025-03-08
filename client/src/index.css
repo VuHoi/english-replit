@@ -4,6 +4,24 @@
   min-height: 500px;
 }
 
+/* Road effect */
+.race-track::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    to right,
+    transparent,
+    transparent 10px,
+    rgba(255, 255, 255, 0.05) 10px,
+    rgba(255, 255, 255, 0.05) 20px
+  );
+  pointer-events: none;
+}
+
 /* Vocabulary carousel swipe instructions */
 .vocabulary-carousel::after {
   content: "← Swipe →";

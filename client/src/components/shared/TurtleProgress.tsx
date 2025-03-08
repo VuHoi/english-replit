@@ -40,7 +40,11 @@ export function TurtleProgress({ value, max, label }: TurtleProgressProps) {
       )}
 
       {/* Game-like race track */}
-      <div className="race-track relative h-20 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-950 dark:to-purple-950 rounded-xl overflow-hidden border border-blue-300 dark:border-blue-800 shadow-inner">
+      <div className="race-track relative h-20 bg-gray-800 dark:bg-gray-900 rounded-xl overflow-hidden border border-gray-700 dark:border-gray-800 shadow-inner">
+        {/* Road with white stripes */}
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full h-1 bg-white opacity-70"></div>
+        </div>
         {/* Stars in the background */}
         <div className="absolute inset-0 overflow-hidden">
           {[...Array(20)].map((_, i) => (
@@ -69,39 +73,30 @@ export function TurtleProgress({ value, max, label }: TurtleProgressProps) {
           <div className="checkered-flag h-10 w-10 absolute -left-6 bg-contain bg-no-repeat" style={{ backgroundImage: 'url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIGZpbGw9ImJsYWNrIi8+PHJlY3QgeD0iMTAiIHk9IjEwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIGZpbGw9ImJsYWNrIi8+PHJlY3QgeD0iMTAiIHdpZHRoPSIxMCIgaGVpZ2h0PSIxMCIgZmlsbD0id2hpdGUiLz48cmVjdCB5PSIxMCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==")' }}></div>
         </div>
 
-        {/* Path markings */}
-        <motion.div 
-          className="absolute left-0 right-0 top-1/2 h-1 flex justify-between"
-          animate={{
-            y: [0, 5, 0],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-          }}
-        >
+        {/* Road dash markings */}
+        <div className="absolute left-0 right-0 top-1/2 transform -translate-y-1/2">
           {[...Array(12)].map((_, i) => (
             <motion.div 
               key={i} 
-              className="h-1 w-5 bg-white opacity-70 rounded-full"
-              initial={{ x: 0 }}
-              animate={{ x: [0, -20] }}
+              className="absolute h-2 w-10 bg-white opacity-70 rounded-sm"
+              initial={{ x: `${i * 8.3}%` }}
+              animate={{ x: [`${i * 8.3}%`, "-10%"] }}
               transition={{
-                duration: 1.5,
+                duration: 4,
                 repeat: Infinity,
                 ease: "linear",
-                delay: i * 0.1,
+                delay: i * 0.3,
+                repeatType: "loop",
               }}
-              style={{ left: `${i * 8}%` }}
             />
           ))}
-        </motion.div>
+        </div>
 
         {/* Turtle character */}
         <motion.div 
           className="turtle absolute bottom-2"
-          initial={{ x: 0 }}
-          animate={{ x: `${Math.floor((value / max) * 10) * 10 - 3}%` }}
+          initial={{ x: "0%" }}
+          animate={{ x: `${value === 0 ? 0 : (value / max) * 100 - 3}%` }}
           transition={{ 
             type: "spring", 
             stiffness: 60, 
