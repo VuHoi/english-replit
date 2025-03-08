@@ -20,6 +20,8 @@ export function VocabularyModule() {
     align: "center",
     duration: 30,
     loop: false,
+    draggableClass: "cursor-grab",
+    draggingClass: "cursor-grabbing",
   });
   const [flipped, setFlipped] = useState(false);
   const [learned, setLearned] = useState<Set<string>>(new Set());
@@ -152,9 +154,9 @@ export function VocabularyModule() {
         )}
       </AnimatePresence>
 
-      {/* Card container with fixed height and only show current card */}
+      {/* Card container with fixed height and proper swipe navigation */}
       <div className="flex-1 relative overflow-hidden">
-        <div className="absolute inset-0" ref={emblaRef}>
+        <div className="vocabulary-carousel absolute inset-0" ref={emblaRef}>
           <div className="flex h-full">
             {sessionWords.map((wordId, index) => {
               const word = vocabulary.words.find(w => w.id === wordId)!;
@@ -162,9 +164,6 @@ export function VocabularyModule() {
                 <div 
                   key={word.id} 
                   className="flex-[0_0_100%] h-full flex items-center justify-center px-4"
-                  style={{ 
-                    display: index === currentIndex ? 'flex' : 'none'
-                  }}
                 >
                   <Card className="w-full h-full max-w-4xl mx-auto backdrop-blur-sm bg-white/90 dark:bg-gray-950/90 border-none shadow-xl">
                     <CardContent className="h-full flex flex-col p-6">
@@ -266,37 +265,25 @@ export function VocabularyModule() {
         </div>
       </div>
        
-      {/* Navigation buttons */}
-      <div className="flex justify-between mt-4">
-        <Button
-          variant="outline"
-          onClick={() => {
-            if (currentIndex > 0) {
-              setCurrentIndex(currentIndex - 1);
-              emblaApi?.scrollTo(currentIndex - 1);
-            }
-          }}
-          disabled={currentIndex === 0}
-          className="px-6"
-        >
-          Trước
-        </Button>
-        <div className="text-center">
+      {/* Slide indicator */}
+      <div className="mt-4 flex justify-center">
+        <div className="flex items-center gap-3">
           <span className="text-lg font-medium">{currentIndex + 1} / {sessionWords.length}</span>
+          <div className="flex gap-1">
+            {sessionWords.map((_, idx) => (
+              <div 
+                key={idx} 
+                className={`h-2 rounded-full transition-all ${
+                  idx === currentIndex ? "w-6 bg-primary" : "w-2 bg-muted"
+                }`}
+                onClick={() => {
+                  setCurrentIndex(idx);
+                  emblaApi?.scrollTo(idx);
+                }}
+              />
+            ))}
+          </div>
         </div>
-        <Button
-          variant="outline"
-          onClick={() => {
-            if (currentIndex < sessionWords.length - 1) {
-              setCurrentIndex(currentIndex + 1);
-              emblaApi?.scrollTo(currentIndex + 1);
-            }
-          }}
-          disabled={currentIndex === sessionWords.length - 1}
-          className="px-6"
-        >
-          Tiếp
-        </Button>
       </div>
     </div>
   );
