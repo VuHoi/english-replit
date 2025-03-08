@@ -13,7 +13,7 @@ import useEmblaCarousel from 'embla-carousel-react';
 
 const WORDS_PER_SESSION = 10;
 
-export function VocabularyModule() {
+export function VocabularyModule({ onScoreChange = (score: number) => {} }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     dragFree: false,
     containScroll: "keepSnaps",
@@ -79,6 +79,7 @@ export function VocabularyModule() {
       }
     }
     setLearned(newLearned);
+    onScoreChange(newLearned.size);
   };
 
   const progress = (learned.size / sessionWords.length) * 100;

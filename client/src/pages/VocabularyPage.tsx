@@ -6,6 +6,8 @@ import { VocabularyModule } from "@/components/modules/VocabularyModule";
 import { ArrowLeft } from "lucide-react";
 import { useLocation } from "wouter";
 
+const WORDS_PER_SESSION = 10; // Should match the value in VocabularyModule
+
 export default function VocabularyPage() {
   const [_, navigate] = useLocation();
 
@@ -20,13 +22,16 @@ export default function VocabularyPage() {
         >
           <ArrowLeft className="h-4 w-4" />
         </Button>
-        <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
-          Vocabulary Training
-        </h1>
+        <div className="ml-auto text-sm font-medium bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+          Learned: <span id="vocab-score">0</span>/{WORDS_PER_SESSION}
+        </div>
       </div>
       
       <div className="mt-6">
-        <VocabularyModule />
+        <VocabularyModule onScoreChange={(score) => {
+          const scoreElement = document.getElementById('vocab-score');
+          if (scoreElement) scoreElement.textContent = score.toString();
+        }} />
       </div>
     </div>
   );
