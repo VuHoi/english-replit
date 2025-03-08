@@ -165,7 +165,7 @@ export function VocabularyModule() {
                   key={word.id} 
                   className="flex-[0_0_100%] h-full flex items-center justify-center px-0"
                 >
-                  <Card className="w-full h-full mx-auto backdrop-blur-sm bg-white/90 dark:bg-gray-950/90 border-none shadow-xl">
+                  <Card className="w-full h-full min-h-[500px] mx-auto backdrop-blur-sm bg-white/90 dark:bg-gray-950/90 border-none shadow-xl">
                     <CardContent className="h-full flex flex-col p-6">
                       <div className="flex-1 relative preserve-3d" style={{ perspective: "1000px" }}>
                         <div

@@ -1,4 +1,9 @@
 
+/* Vocabulary carousel container */
+.vocabulary-carousel {
+  min-height: 500px;
+}
+
 /* Vocabulary carousel swipe instructions */
 .vocabulary-carousel::after {
   content: "← Swipe →";
