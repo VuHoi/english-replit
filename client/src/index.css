@@ -12,6 +12,26 @@
   left: 50%;
   transform: translateX(-50%);
   color: rgba(100, 100, 100, 0.3);
+}
+
+/* Preserve 3D effect for flipping cards */
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+/* Race track and turtle animations */
+.race-track {
+  background-size: 100px 100px;
+  animation: race-bg 10s linear infinite;
+}
+
+@keyframes race-bg {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -100px 0;
+  }
   font-size: 0.75rem;
   pointer-events: none;
   animation: fadeInOut 5s ease-in-out forwards;
