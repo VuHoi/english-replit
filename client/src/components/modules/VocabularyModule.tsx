@@ -1,4 +1,3 @@
-
 import { useState, useCallback, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,8 +7,8 @@ import { AudioPlayer } from "@/components/shared/AudioPlayer";
 import { RotateCw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
-import confetti from 'canvas-confetti';
-import useEmblaCarousel from 'embla-carousel-react';
+import confetti from "canvas-confetti";
+import useEmblaCarousel from "embla-carousel-react";
 
 const WORDS_PER_SESSION = 10;
 
@@ -20,8 +19,6 @@ export function VocabularyModule({ onScoreChange = (score: number) => {} }) {
     align: "center",
     duration: 30,
     loop: false,
-    draggableClass: "cursor-grab",
-    draggingClass: "cursor-grabbing",
   });
   const [flipped, setFlipped] = useState(false);
   const [learned, setLearned] = useState<Set<string>>(new Set());
@@ -34,7 +31,7 @@ export function VocabularyModule({ onScoreChange = (score: number) => {} }) {
     const randomWords = [...vocabulary.words]
       .sort(() => Math.random() - 0.5)
       .slice(0, WORDS_PER_SESSION)
-      .map(w => w.id);
+      .map((w) => w.id);
     setSessionWords(randomWords);
   }, []);
 
@@ -42,38 +39,31 @@ export function VocabularyModule({ onScoreChange = (score: number) => {} }) {
   useEffect(() => {
     if (!emblaApi) return;
 
-    emblaApi.on('select', () => {
+    emblaApi.on("select", () => {
       setCurrentIndex(emblaApi.selectedScrollSnap());
       setFlipped(false);
     });
   }, [emblaApi]);
 
-  const currentWord = vocabulary.words.find(w => w.id === sessionWords[currentIndex]) || vocabulary.words[0];
+  const currentWord =
+    vocabulary.words.find((w) => w.id === sessionWords[currentIndex]) ||
+    vocabulary.words[0];
 
   const triggerConfetti = useCallback(() => {
     confetti({
       particleCount: 100,
       spread: 70,
       origin: { y: 0.6 },
-      colors: ['#4F46E5', '#22C55E', '#EAB308']
+      colors: ["#4F46E5", "#22C55E", "#EAB308"],
     });
   }, []);
-  
+
   const toggleLearned = () => {
     const newLearned = new Set(learned);
     if (newLearned.has(currentWord.id)) {
       newLearned.delete(currentWord.id);
-      toast({
-        title: "Từ vựng đã được bỏ đánh dấu",
-        description: `${currentWord.word} sẽ xuất hiện trong danh sách cần ôn tập`,
-      });
     } else {
       newLearned.add(currentWord.id);
-      toast({
-        title: "Từ vựng đã học",
-        description: `Bạn đã học ${newLearned.size}/${sessionWords.length} từ`,
-      });
-      
       if (newLearned.size === sessionWords.length) {
         setTimeout(triggerConfetti, 300);
       }
@@ -85,20 +75,20 @@ export function VocabularyModule({ onScoreChange = (score: number) => {} }) {
   const progress = (learned.size / sessionWords.length) * 100;
 
   return (
-    <div className="flex flex-col h-[calc(100vh-14rem)]">
+    <div className="flex flex-col h-[calc(100vh-5rem)]">
       {/* Progress bar */}
-      <div className="flex items-center justify-center mb-4">
-        <TurtleProgress 
-          value={learned.size} 
-          max={sessionWords.length} 
-          label="Progress"l="Tiến độ học tập" 
+      <div className="flex items-center justify-center ">
+        <TurtleProgress
+          value={learned.size}
+          max={sessionWords.length}
+          label="Progress"
         />
       </div>
 
       {/* Success overlay when all words are learned */}
       <AnimatePresence>
         {learned.size === sessionWords.length && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -111,19 +101,26 @@ export function VocabularyModule({ onScoreChange = (score: number) => {} }) {
               className="bg-white dark:bg-gray-900 rounded-xl p-8 max-w-lg text-center shadow-lg"
             >
               <svg className="w-40 h-40 mx-auto" viewBox="0 0 200 200">
-                <motion.g 
+                <motion.g
                   initial={{ pathLength: 0 }}
                   animate={{ pathLength: 1 }}
                   transition={{ duration: 1, delay: 0.5 }}
                 >
-                  <circle cx="100" cy="100" r="80" fill="none" stroke="#10B981" strokeWidth="8" />
-                  <path 
-                    d="M70 100 L90 120 L130 80" 
-                    fill="none" 
-                    stroke="#10B981" 
-                    strokeWidth="8" 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
+                  <circle
+                    cx="100"
+                    cy="100"
+                    r="80"
+                    fill="none"
+                    stroke="#10B981"
+                    strokeWidth="8"
+                  />
+                  <path
+                    d="M70 100 L90 120 L130 80"
+                    fill="none"
+                    stroke="#10B981"
+                    strokeWidth="8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                 </motion.g>
               </svg>
@@ -132,7 +129,8 @@ export function VocabularyModule({ onScoreChange = (score: number) => {} }) {
                 🎉 Chúc mừng chiến thắng! 🎉
               </h3>
               <p className="text-muted-foreground">
-                Bạn đã hoàn thành xuất sắc {WORDS_PER_SESSION} từ trong phiên học này!
+                Bạn đã hoàn thành xuất sắc {WORDS_PER_SESSION} từ trong phiên
+                học này!
               </p>
               <Button
                 onClick={() => {
@@ -140,7 +138,7 @@ export function VocabularyModule({ onScoreChange = (score: number) => {} }) {
                   const newRandomWords = [...vocabulary.words]
                     .sort(() => Math.random() - 0.5)
                     .slice(0, WORDS_PER_SESSION)
-                    .map(w => w.id);
+                    .map((w) => w.id);
                   setSessionWords(newRandomWords);
                   setCurrentIndex(0);
                   if (emblaApi) {
@@ -161,15 +159,18 @@ export function VocabularyModule({ onScoreChange = (score: number) => {} }) {
         <div className="vocabulary-carousel absolute inset-0" ref={emblaRef}>
           <div className="flex h-full">
             {sessionWords.map((wordId, index) => {
-              const word = vocabulary.words.find(w => w.id === wordId)!;
+              const word: any = vocabulary.words.find((w) => w.id === wordId)!;
               return (
-                <div 
-                  key={word.id} 
+                <div
+                  key={word.id}
                   className="flex-[0_0_100%] h-full flex items-center justify-center px-0"
                 >
                   <Card className="w-full h-full min-h-[500px] mx-auto backdrop-blur-sm bg-white/90 dark:bg-gray-950/90 border-none shadow-xl">
                     <CardContent className="h-full flex flex-col p-6">
-                      <div className="flex-1 relative preserve-3d" style={{ perspective: "1000px" }}>
+                      <div
+                        className="flex-1 relative preserve-3d"
+                        style={{ perspective: "1000px" }}
+                      >
                         <div
                           className={`absolute inset-0 transition-transform duration-500 ease-in-out transform-style-3d cursor-pointer ${
                             flipped ? "rotate-y-180" : ""
@@ -179,28 +180,32 @@ export function VocabularyModule({ onScoreChange = (score: number) => {} }) {
                           {/* Front of card */}
                           <div className="absolute inset-0 backface-hidden bg-white dark:bg-gray-900 rounded-xl shadow-lg">
                             <div className="flex flex-col items-center justify-center h-full p-6 space-y-8">
-                              <h2 className="text-3xl sm:text-5xl font-bold mb-4">{word.word}</h2>
-                              
+                              <h2 className="text-3xl sm:text-5xl font-bold mb-4">
+                                {word.word}
+                              </h2>
+
                               <div className="flex items-center justify-center mb-2">
-                                <p className="text-xl sm:text-2xl text-muted-foreground">{word.phonetic}</p>
+                                <p className="text-xl sm:text-2xl text-muted-foreground">
+                                  {word.phonetic}
+                                </p>
                                 {word.audio && (
                                   <div className="ml-2 mt-1">
                                     <AudioPlayer audioUrl={word.audio} />
                                   </div>
                                 )}
                               </div>
-                              
+
                               {word.image && (
                                 <div className="w-full max-w-sm h-48 sm:h-64 my-4 overflow-hidden rounded-lg">
-                                  <img 
-                                    src={word.image} 
-                                    alt={word.word} 
+                                  <img
+                                    src={word.image}
+                                    alt={word.word}
                                     className="w-full h-full object-cover"
                                   />
                                 </div>
                               )}
 
-                              <motion.p 
+                              <motion.p
                                 className="text-lg text-muted-foreground mt-8"
                                 animate={{ opacity: [0.5, 1, 0.5] }}
                                 transition={{ duration: 2, repeat: Infinity }}
@@ -214,17 +219,27 @@ export function VocabularyModule({ onScoreChange = (score: number) => {} }) {
                           <div className="absolute inset-0 backface-hidden rotate-y-180 bg-white dark:bg-gray-900 rounded-xl shadow-lg">
                             <div className="flex flex-col items-center justify-center h-full p-6 space-y-8">
                               <div className="text-center space-y-6">
-                                <h3 className="text-2xl sm:text-4xl font-bold">{word.definition}</h3>
+                                <h3 className="text-2xl sm:text-4xl font-bold">
+                                  {word.definition}
+                                </h3>
                                 <div className="space-y-4">
-                                  <p className="text-xl sm:text-2xl font-medium">Ví dụ:</p>
-                                  <p className="text-lg sm:text-xl text-muted-foreground italic">"{word.example}"</p>
+                                  <p className="text-xl sm:text-2xl font-medium">
+                                    Ví dụ:
+                                  </p>
+                                  <p className="text-lg sm:text-xl text-muted-foreground italic">
+                                    "{word.example}"
+                                  </p>
                                 </div>
                                 <div className="space-y-4">
-                                  <p className="text-xl sm:text-2xl font-medium">Ngữ cảnh:</p>
-                                  <p className="text-lg sm:text-xl text-muted-foreground">"{word.context}"</p>
+                                  <p className="text-xl sm:text-2xl font-medium">
+                                    Ngữ cảnh:
+                                  </p>
+                                  <p className="text-lg sm:text-xl text-muted-foreground">
+                                    "{word.context}"
+                                  </p>
                                 </div>
                               </div>
-                              <motion.p 
+                              <motion.p
                                 className="text-lg text-muted-foreground mt-8"
                                 animate={{ opacity: [0.5, 1, 0.5] }}
                                 transition={{ duration: 2, repeat: Infinity }}
@@ -242,12 +257,14 @@ export function VocabularyModule({ onScoreChange = (score: number) => {} }) {
                           variant={learned.has(word.id) ? "default" : "outline"}
                           onClick={toggleLearned}
                           className={`text-lg py-6 px-8 transition-all duration-300 ${
-                            learned.has(word.id) 
-                              ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700'
-                              : 'hover:scale-105'
+                            learned.has(word.id)
+                              ? "bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
+                              : "hover:scale-105"
                           }`}
                         >
-                          {learned.has(word.id) ? "Đã học ✓" : "Đánh dấu đã học"}
+                          {learned.has(word.id)
+                            ? "Đã học ✓"
+                            : "Đánh dấu đã học"}
                         </Button>
                         <Button
                           variant="outline"
@@ -265,11 +282,6 @@ export function VocabularyModule({ onScoreChange = (score: number) => {} }) {
             })}
           </div>
         </div>
-      </div>
-       
-      {/* Current card counter (minimized) */}
-      <div className="absolute bottom-0 right-0 m-3 z-10 bg-background/80 px-2 py-1 rounded-full text-xs font-medium backdrop-blur-sm border border-border">
-        {currentIndex + 1} / {sessionWords.length}
       </div>
     </div>
   );

@@ -1,5 +1,4 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Trophy } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 
 interface TurtleProgressProps {
@@ -10,34 +9,8 @@ interface TurtleProgressProps {
 
 export function TurtleProgress({ value, max, label }: TurtleProgressProps) {
   const percentage = Math.round((value / max) * 100);
-  console.log(percentage);
   return (
     <div className="w-full space-y-2">
-      {label && (
-        <motion.div
-          className="flex justify-between items-center"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <span className="text-sm text-muted-foreground">{label}</span>
-          <motion.div
-            className="flex items-center gap-2"
-            key={value}
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            {value === max && (
-              <Trophy className="w-5 h-5 text-yellow-500 animate-bounce" />
-            )}
-            <span className="text-sm font-medium bg-gradient-to-r from-primary to-indigo-600 bg-clip-text text-transparent">
-              {value} / {max}
-            </span>
-          </motion.div>
-        </motion.div>
-      )}
-
       {/* Game-like race track */}
       <div className="race-track relative h-20 bg-gray-800 dark:bg-gray-900 rounded-xl overflow-hidden border border-gray-700 dark:border-gray-800 shadow-inner">
         {/* Road with white stripes */}
@@ -99,10 +72,10 @@ export function TurtleProgress({ value, max, label }: TurtleProgressProps) {
 
         {/* Turtle character */}
         <motion.div
-          className="turtle absolute bottom-5"
+          className="turtle absolute bottom-5 w-full"
           initial={{ x: "0%" }}
           animate={{
-            x: `${value === 0 ? 0 : Math.min(Math.max(0, (value / max) * 100 - 10), 90)}vw`,
+            x: `${value === 0 ? 0 : Math.min(Math.max(0, (value / max) * 100 - 10), 90)}%`,
           }}
           transition={{
             type: "spring",
@@ -278,32 +251,6 @@ export function TurtleProgress({ value, max, label }: TurtleProgressProps) {
       <div className="opacity-0 absolute">
         <Progress value={percentage} className="h-1" />
       </div>
-
-      {/* Motivational messages */}
-      <AnimatePresence>
-        {value > 0 && value < max && (
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="text-sm text-center text-muted-foreground"
-          >
-            {value === max - 1
-              ? "Cố lên! Chỉ còn 1 từ nữa thôi! 🎉"
-              : "Bạn đang làm rất tốt! Hãy tiếp tục nhé! 💪"}
-          </motion.p>
-        )}
-        {value === max && (
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="text-sm text-center font-medium text-green-600 dark:text-green-400"
-          >
-            Tuyệt vời! Bạn đã hoàn thành bài học hôm nay! 🌟
-          </motion.p>
-        )}
-      </AnimatePresence>
     </div>
   );
 }

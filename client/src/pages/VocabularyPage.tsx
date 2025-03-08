@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { TurtleProgress } from "@/components/shared/TurtleProgress";
@@ -13,11 +12,11 @@ export default function VocabularyPage() {
 
   return (
     <div className="container mx-auto py-8 px-4">
-      <div className="flex items-center mb-6">
-        <Button 
-          variant="outline" 
+      <div className="flex items-center mb-6  sticky">
+        <Button
+          variant="outline"
           size="icon"
-          onClick={() => navigate("/")} 
+          onClick={() => navigate("/")}
           className="mr-4"
         >
           <ArrowLeft className="h-4 w-4" />
@@ -26,12 +25,14 @@ export default function VocabularyPage() {
           Learned: <span id="vocab-score">0</span>/{WORDS_PER_SESSION}
         </div>
       </div>
-      
+
       <div className="mt-6">
-        <VocabularyModule onScoreChange={(score) => {
-          const scoreElement = document.getElementById('vocab-score');
-          if (scoreElement) scoreElement.textContent = score.toString();
-        }} />
+        <VocabularyModule
+          onScoreChange={(score) => {
+            const scoreElement = document.getElementById("vocab-score");
+            if (scoreElement) scoreElement.textContent = score.toString();
+          }}
+        />
       </div>
     </div>
   );

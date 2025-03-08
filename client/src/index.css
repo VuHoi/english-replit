@@ -1,4 +1,3 @@
-
 /* Vocabulary carousel container */
 .vocabulary-carousel {
   min-height: 500px;
@@ -12,25 +11,15 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: repeating-linear-gradient(
-    to right,
-    transparent,
-    transparent 10px,
-    rgba(255, 255, 255, 0.05) 10px,
-    rgba(255, 255, 255, 0.05) 20px
-  );
+  background: repeating-linear-gradient(to right,
+      transparent,
+      transparent 10px,
+      rgba(255, 255, 255, 0.05) 10px,
+      rgba(255, 255, 255, 0.05) 20px);
   pointer-events: none;
 }
 
-/* Vocabulary carousel swipe instructions */
-.vocabulary-carousel::after {
-  content: "← Swipe →";
-  position: absolute;
-  bottom: 55px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: rgba(100, 100, 100, 0.3);
-}
+
 
 /* Preserve 3D effect for flipping cards */
 .preserve-3d {
@@ -47,9 +36,11 @@
   0% {
     background-position: 0 0;
   }
+
   100% {
     background-position: -100px 0;
   }
+
   font-size: 0.75rem;
   pointer-events: none;
   animation: fadeInOut 5s ease-in-out forwards;
@@ -57,8 +48,16 @@
 }
 
 @keyframes fadeInOut {
-  0%, 100% { opacity: 0; }
-  20%, 80% { opacity: 1; }
+
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  20%,
+  80% {
+    opacity: 1;
+  }
 }
 
 @tailwind base;
@@ -94,16 +93,18 @@
 
   .bg-grid-primary {
     background-image: linear-gradient(to right, theme('colors.primary.DEFAULT/10') 1px, transparent 1px),
-                      linear-gradient(to bottom, theme('colors.primary.DEFAULT/10') 1px, transparent 1px);
+      linear-gradient(to bottom, theme('colors.primary.DEFAULT/10') 1px, transparent 1px);
   }
 
   @keyframes float {
     0% {
       transform: translateY(0px);
     }
+
     50% {
       transform: translateY(-20px);
     }
+
     100% {
       transform: translateY(0px);
     }
@@ -117,12 +118,15 @@
     0% {
       transform: rotate(0deg) translateY(0) translateX(0);
     }
+
     25% {
       transform: rotate(3deg) translateY(-2px) translateX(1px);
     }
+
     75% {
       transform: rotate(-3deg) translateY(2px) translateX(-1px);
     }
+
     100% {
       transform: rotate(0deg) translateY(0) translateX(0);
     }
@@ -131,16 +135,19 @@
   .animate-turtle {
     animation: turtle-walk 1.2s ease-in-out infinite;
   }
-  
+
   @keyframes finish-line-shine {
-    0%, 100% {
+
+    0%,
+    100% {
       opacity: 0.7;
     }
+
     50% {
       opacity: 1;
     }
   }
-  
+
   .animate-finish-line {
     animation: finish-line-shine 2s ease-in-out infinite;
   }
@@ -150,125 +157,146 @@
       transform: scale(0) rotate(0deg);
       opacity: 0;
     }
+
     50% {
       transform: scale(1) rotate(180deg);
 
-/* Game-like animations and effects */
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
+      /* Game-like animations and effects */
+      @keyframes bounce {
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
+        0%,
+        100% {
+          transform: translateY(0);
+        }
 
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
+        50% {
+          transform: translateY(-10px);
+        }
+      }
 
-.animate-bounce {
-  animation: bounce 1s infinite;
-}
+      @keyframes pulse {
 
-.animate-pulse {
-  animation: pulse 2s infinite;
-}
+        0%,
+        100% {
+          opacity: 1;
+        }
 
-.animate-spin {
-  animation: spin 2s linear infinite;
-}
+        50% {
+          opacity: 0.5;
+        }
+      }
 
-/* Custom cursor when hovering over game elements */
-.race-track:hover {
-  cursor: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNOCAxOUwxOSA4LjVMMTUuNSA1TDUgMTUuNUw4IDE5WiIgZmlsbD0iIzQzQTA0NyIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48L3N2Zz4="), pointer;
-}
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
 
-/* Grass texture for race track */
-.race-track::before {
-  content: "";
-  position: absolute;
+        to {
+          transform: rotate(360deg);
+        }
+      }
 
-/* Styles for 3D card flip effect */
-.preserve-3d {
-  transform-style: preserve-3d;
-}
+      .animate-bounce {
+        animation: bounce 1s infinite;
+      }
 
-.backface-hidden {
-  backface-visibility: hidden;
-}
+      .animate-pulse {
+        animation: pulse 2s infinite;
+      }
 
-.rotate-y-180 {
-  transform: rotateY(180deg);
-}
+      .animate-spin {
+        animation: spin 2s linear infinite;
+      }
 
-.transform-style-3d {
-  transform-style: preserve-3d;
-}
+      /* Custom cursor when hovering over game elements */
+      .race-track:hover {
+        cursor: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNOCAxOUwxOSA4LjVMMTUuNSA1TDUgMTUuNUw4IDE5WiIgZmlsbD0iIzQzQTA0NyIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48L3N2Zz4="), pointer;
+      }
 
-/* Navigation controls */
-.carousel-button {
-  background: rgba(255, 255, 255, 0.9);
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 10;
-  transition: all 0.2s;
-}
+      /* Grass texture for race track */
+      .race-track::before {
+        content: "";
+        position: absolute;
 
-.carousel-button:hover {
-  background: rgba(255, 255, 255, 1);
-  transform: scale(1.1);
-}
+        /* Styles for 3D card flip effect */
+        .preserve-3d {
+          transform-style: preserve-3d;
+        }
 
-.carousel-button:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
+        .backface-hidden {
+          backface-visibility: hidden;
+        }
 
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMzAgNzBMMzUgNjVNNDAgODBMNDUgNzVNNjAgNTBMNjUgNDVNNzAgOTBMNzUgODVNMTAgMzBMMTUgMjVNODAgMjBMODUgMTUiIHN0cm9rZT0iIzY2QkI2QSIgc3Ryb2tlLXdpZHRoPSIwLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvc3ZnPg==");
-  opacity: 0.15;
-}
+        .rotate-y-180 {
+          transform: rotateY(180deg);
+        }
 
-/* Glow effect for finish line */
-.finish-line::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -5px;
-  width: 10px;
-  height: 100%;
-  background: white;
-  filter: blur(5px);
-  opacity: 0.3;
-  animation: pulse 2s infinite;
-}
+        .transform-style-3d {
+          transform-style: preserve-3d;
+        }
 
-/* Turtle shadow */
-.turtle::after {
-  content: "";
-  position: absolute;
-  bottom: -2px;
-  left: 10px;
-  width: 30px;
-  height: 5px;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 50%;
-}
+        /* Navigation controls */
+        .carousel-button {
+          background: rgba(255, 255, 255, 0.9);
+          border: none;
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          z-index: 10;
+          transition: all 0.2s;
+        }
+
+        .carousel-button:hover {
+          background: rgba(255, 255, 255, 1);
+          transform: scale(1.1);
+        }
+
+        .carousel-button:disabled {
+          opacity: 0.3;
+          cursor: not-allowed;
+        }
+
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMzAgNzBMMzUgNjVNNDAgODBMNDUgNzVNNjAgNTBMNjUgNDVNNzAgOTBMNzUgODVNMTAgMzBMMTUgMjVNODAgMjBMODUgMTUiIHN0cm9rZT0iIzY2QkI2QSIgc3Ryb2tlLXdpZHRoPSIwLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvc3ZnPg==");
+        opacity: 0.15;
+      }
+
+      /* Glow effect for finish line */
+      .finish-line::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -5px;
+        width: 10px;
+        height: 100%;
+        background: white;
+        filter: blur(5px);
+        opacity: 0.3;
+        animation: pulse 2s infinite;
+      }
+
+      /* Turtle shadow */
+      .turtle::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 10px;
+        width: 30px;
+        height: 5px;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 50%;
+      }
 
       opacity: 1;
     }
+
     100% {
       transform: scale(0) rotate(360deg);
       opacity: 0;
