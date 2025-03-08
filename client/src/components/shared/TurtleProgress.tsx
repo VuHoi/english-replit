@@ -96,7 +96,7 @@ export function TurtleProgress({ value, max, label }: TurtleProgressProps) {
         <motion.div 
           className="turtle absolute bottom-2"
           initial={{ x: "0%" }}
-          animate={{ x: `${value === 0 ? 0 : (value / max) * 100 - 3}%` }}
+          animate={{ x: `${value === 0 ? 0 : Math.min(Math.max(0, (value / max) * 100 - 3), 97)}%` }}
           transition={{ 
             type: "spring", 
             stiffness: 60, 

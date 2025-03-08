@@ -65,10 +65,9 @@ export default function HomePage() {
               </p>
               <div className="pt-2">
                 <TurtleProgress 
-                  progress={module.progress} 
-                  total={100} 
-                  showPercentage={true}
-                  height={80}
+                  value={module.progress} 
+                  max={100} 
+                  label={`${module.title} Progress`}
                 />
               </div>
             </CardContent>

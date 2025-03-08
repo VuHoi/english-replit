@@ -88,8 +88,9 @@ export function VocabularyModule() {
       {/* Progress bar */}
       <div className="flex items-center justify-center mb-4">
         <TurtleProgress 
-          progress={progress} 
-          label="Tiến độ học tập" 
+          value={learned.size} 
+          max={sessionWords.length} 
+          label="Progress"l="Tiến độ học tập" 
         />
       </div>
 
