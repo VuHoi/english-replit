@@ -1,7 +1,23 @@
 export const vocabulary = {
   words: [
-    { id: "w1", word: "ephemeral", definition: "lasting for a very short time", example: "The ephemeral beauty of a sunset" },
-    { id: "w2", word: "ubiquitous", definition: "present everywhere", example: "Mobile phones are ubiquitous in modern life" },
+    { 
+      id: "w1", 
+      word: "ephemeral", 
+      phonetic: "/ɪˈfem(ə)rəl/",
+      audioUrl: "https://api.dictionaryapi.dev/media/pronunciations/en/ephemeral-us.mp3",
+      definition: "lasting for a very short time", 
+      example: "The ephemeral beauty of a sunset",
+      context: "The ephemeral nature of social media trends makes it hard to keep up."
+    },
+    { 
+      id: "w2", 
+      word: "ubiquitous", 
+      phonetic: "/juːˈbɪkwɪtəs/",
+      audioUrl: "https://api.dictionaryapi.dev/media/pronunciations/en/ubiquitous-us.mp3",
+      definition: "present everywhere", 
+      example: "Mobile phones are ubiquitous in modern life",
+      context: "The ubiquitous nature of plastic pollution is a global concern."
+    },
     // Add more words...
   ]
 };
