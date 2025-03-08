@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <div className="container mx-auto py-8 px-4">
       <h1 className="text-4xl font-bold text-center mb-8 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-        English Learning Hub
+        English Learning
       </h1>
 
       <Tabs defaultValue="vocabulary" className="max-w-4xl mx-auto">
