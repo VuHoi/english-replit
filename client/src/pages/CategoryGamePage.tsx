@@ -2,16 +2,19 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Volume2 } from "lucide-react";
 import { useLocation } from "wouter";
 import { vocabulary } from "@/data/content";
 import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
 
+type QuestionType = 'definition' | 'example' | 'audio' | 'context';
+
 type Option = {
   text: string;
-  type: 'definition' | 'example' | 'context';
+  type: QuestionType;
   isCorrect: boolean;
+  audioUrl?: string;
 };
 
 export default function CategoryGamePage() {
@@ -23,6 +26,7 @@ export default function CategoryGamePage() {
   const [options, setOptions] = useState<Option[]>([]);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+  const [currentQuestionType, setCurrentQuestionType] = useState<QuestionType>('definition');
   const [gameWords, setGameWords] = useState(
     vocabulary.words
       .sort(() => Math.random() - 0.5)
@@ -31,8 +35,17 @@ export default function CategoryGamePage() {
 
   const currentWord = gameWords[currentWordIndex];
 
+  const playAudio = (url: string) => {
+    new Audio(url).play().catch(console.error);
+  };
+
   useEffect(() => {
     if (!currentWord) return;
+    
+    const questionTypes: QuestionType[] = ['definition', 'example', 'audio', 'context'];
+    const newQuestionType = questionTypes[Math.floor(Math.random() * questionTypes.length)];
+    setCurrentQuestionType(newQuestionType);
+
     const correctOption = Math.floor(Math.random() * 4);
     const newOptions: Option[] = [];
     const otherWords = vocabulary.words
@@ -43,17 +56,25 @@ export default function CategoryGamePage() {
     for (let i = 0; i < 4; i++) {
       if (i === correctOption) {
         newOptions.push({
-          text: currentWord.definition,
-          type: 'definition',
-          isCorrect: true
+          text: newQuestionType === 'audio' ? currentWord.word : 
+                newQuestionType === 'example' ? currentWord.example :
+                newQuestionType === 'context' ? currentWord.context :
+                currentWord.definition,
+          type: newQuestionType,
+          isCorrect: true,
+          audioUrl: currentWord.audioUrl
         });
       } else {
         const wrongWord = otherWords[i > correctOption ? i - 1 : i];
         if (wrongWord) {
           newOptions.push({
-            text: wrongWord.definition,
-            type: 'definition',
-            isCorrect: false
+            text: newQuestionType === 'audio' ? wrongWord.word :
+                  newQuestionType === 'example' ? wrongWord.example :
+                  newQuestionType === 'context' ? wrongWord.context :
+                  wrongWord.definition,
+            type: newQuestionType,
+            isCorrect: false,
+            audioUrl: wrongWord.audioUrl
           });
         }
       }
@@ -115,10 +136,23 @@ export default function CategoryGamePage() {
     setShowResult(false);
   };
 
+  const getQuestionText = () => {
+    switch (currentQuestionType) {
+      case 'audio':
+        return "Listen and choose the correct word:";
+      case 'example':
+        return "Choose the word that fits this example:";
+      case 'context':
+        return "Select the word that matches this context:";
+      default:
+        return "Choose the correct definition:";
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800">
-      <div className="container mx-auto py-8 px-4">
-        <div className="flex items-center mb-6">
+      <div className="container mx-auto py-4 px-4 min-h-screen flex flex-col">
+        <div className="flex items-center mb-4">
           <Button
             variant="outline"
             size="icon"
@@ -127,8 +161,8 @@ export default function CategoryGamePage() {
           >
             <ArrowLeft className="h-4 w-4" />
           </Button>
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
-            Vocabulary Preview
+          <h1 className="text-xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+            Vocabulary Quiz
           </h1>
           <motion.div 
             className="ml-auto text-lg font-semibold"
@@ -139,7 +173,7 @@ export default function CategoryGamePage() {
         </div>
 
         {!showResult ? (
-          <div className="max-w-2xl mx-auto">
+          <div className="flex-1 flex flex-col max-w-md mx-auto w-full">
             <div className="mb-4 h-2 bg-gray-200 rounded-full overflow-hidden">
               <motion.div
                 className="h-full bg-primary rounded-full"
@@ -153,23 +187,42 @@ export default function CategoryGamePage() {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5 }}
+              className="mb-6"
             >
-              <Card className="p-8 mb-6 backdrop-blur-sm bg-white/90 dark:bg-gray-800/90 shadow-xl">
-                <motion.h2 
-                  className="text-4xl font-bold text-center mb-3"
-                  initial={{ scale: 0.9 }}
-                  animate={{ scale: 1 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {currentWord?.word}
-                </motion.h2>
-                <p className="text-center text-gray-500 dark:text-gray-400 mb-4">
-                  {currentWord?.phonetic}
-                </p>
+              <Card className="p-6 backdrop-blur-sm bg-white/90 dark:bg-gray-800/90 shadow-xl">
+                {currentQuestionType === 'audio' ? (
+                  <div className="flex flex-col items-center gap-4">
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      className="rounded-full p-6"
+                      onClick={() => currentWord?.audioUrl && playAudio(currentWord.audioUrl)}
+                    >
+                      <Volume2 className="h-8 w-8" />
+                    </Button>
+                    <p className="text-center text-sm text-gray-500">
+                      Click to play audio
+                    </p>
+                  </div>
+                ) : (
+                  <>
+                    <motion.h2 
+                      className="text-2xl font-bold text-center mb-3"
+                      initial={{ scale: 0.9 }}
+                      animate={{ scale: 1 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {currentWord?.word}
+                    </motion.h2>
+                    <p className="text-center text-gray-500 dark:text-gray-400">
+                      {getQuestionText()}
+                    </p>
+                  </>
+                )}
               </Card>
             </motion.div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-3">
               <AnimatePresence>
                 {options.map((option, index) => (
                   <motion.div
@@ -184,7 +237,7 @@ export default function CategoryGamePage() {
                         ? (options[index].isCorrect ? "default" : "destructive")
                         : "outline"
                       }
-                      className={`w-full h-auto p-6 text-left transition-all hover:scale-105 ${
+                      className={`w-full min-h-[60px] p-4 text-left transition-all hover:scale-105 ${
                         selectedOption !== null && options[index].isCorrect
                           ? "ring-2 ring-green-500"
                           : ""
@@ -200,7 +253,7 @@ export default function CategoryGamePage() {
           </div>
         ) : (
           <motion.div 
-            className="text-center py-12"
+            className="flex-1 flex flex-col items-center justify-center"
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
           >
