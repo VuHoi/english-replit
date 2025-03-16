@@ -20,7 +20,7 @@ export default function HomePage() {
       title: "Grammar",
       description: "Master English grammar rules and structures.",
       icon: <BookOpen className="h-5 w-5" />,
-      path: "/grammar",
+      path: "/grammar/courses",
       progress: 20,
     },
     {
