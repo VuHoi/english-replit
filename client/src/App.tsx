@@ -37,6 +37,7 @@ function Router() {
       <Route path="/speaking/courses" component={SpeakingCoursesPage} />
       <Route path="/speaking/course/:id" component={SpeakingDetailPage} />
       <Route path="/speaking/game" component={SpeakingGamePage} />
+      <Route path="/profile" component={ProfilePage} />
       {/* Keep the NotFound route as fallback */}
       <Route component={() => <div>404 Not Found</div>} />
     </Switch>
