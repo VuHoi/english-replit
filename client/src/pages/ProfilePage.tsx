@@ -1,4 +1,3 @@
-
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -60,10 +59,6 @@ export default function ProfilePage() {
               <Mail className="h-4 w-4 text-muted-foreground" />
               <span>{userData.email}</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Calendar className="h-4 w-4 text-muted-foreground" />
-              <span>Joined: {userData.joinDate}</span>
-            </div>
           </CardContent>
         </Card>
 
@@ -72,7 +67,7 @@ export default function ProfilePage() {
             <CalendarIcon className="h-5 w-5" />
             Learning Progress Calendar
           </h2>
-          
+
           <div className="flex flex-col gap-4">
             <Card>
               <CardHeader>
@@ -85,16 +80,14 @@ export default function ProfilePage() {
                 </div>
               </CardHeader>
               <CardContent className="p-4">
-                <div className="max-w-sm mx-auto">
-                  <Calendar
-                    mode="multiple"
-                    selected={[new Date(2024, 0, 15), new Date(2024, 0, 16)]}
-                    className="w-full"
-                    showOutsideDays={false}
-                    numberOfMonths={1}
-                    defaultMonth={new Date()}
-                  />
-                </div>
+                <Calendar
+                  mode="multiple"
+                  selected={[new Date(2024, 0, 15), new Date(2024, 0, 16)]}
+                  className="w-full"
+                  showOutsideDays={false}
+                  numberOfMonths={1}
+                  defaultMonth={new Date()}
+                />
               </CardContent>
             </Card>
           </div>
