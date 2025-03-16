@@ -141,19 +141,15 @@ export default function ProfilePage() {
                   </div>
                 ) : (
                   <div className="h-[calc(100vh-200px)] overflow-auto">
-                    <div className="grid grid-cols-7 gap-1 mb-1">
+                    <div className="grid grid-cols-[auto_repeat(52,1fr)] gap-1">
                       {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => (
-                        <div key={day} className="text-xs text-center font-medium">{day}</div>
-                      ))}
-                    </div>
-                    <div className="grid grid-rows-[repeat(52,1fr)] gap-1">
-                      {Array.from({ length: 52 }, (_, weekIndex) => (
-                        <div key={weekIndex} className="grid grid-cols-7 gap-1">
-                          {Array.from({ length: 7 }, (_, dayIndex) => {
+                        <div key={day} className="space-y-1">
+                          <div className="text-xs font-medium w-12">{day}</div>
+                          {Array.from({ length: 52 }, (_, weekIndex) => {
                             const isSelected = weekIndex < 10;
                             return (
                               <div
-                                key={dayIndex}
+                                key={weekIndex}
                                 className={`h-6 rounded-sm flex items-center justify-center text-xs transition-all ${
                                   isSelected
                                     ? 'bg-gradient-to-br from-purple-600 via-amber-400 to-emerald-400 text-white shadow-sm'
