@@ -121,13 +121,16 @@ export default function ProfilePage() {
                       return (
                         <div
                           key={i}
-                          className={`h-12 rounded-lg flex items-center justify-center transition-all ${
-                            isSelected 
-                              ? 'animate-gradient bg-[size:400%] bg-gradient-to-br from-primary via-purple-500 to-pink-500 text-primary-foreground shadow-lg shadow-primary/20 scale-105 border-2 border-primary/20' 
-                              : 'animate-pulse bg-gradient-to-br from-red-400 to-red-600 text-white shadow-md'
+                          className={`h-12 rounded-lg flex items-center justify-center transition-all group relative ${
+                            i < 10 
+                              ? 'bg-gradient-to-br from-green-400 via-emerald-500 to-purple-500 text-white shadow-lg scale-105' 
+                              : 'bg-muted hover:bg-muted/80'
                           }`}
                         >
                           {i + 1}
+                          <div className="absolute -top-8 bg-black/80 text-white px-2 py-1 rounded text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                            {i < 10 ? `${i} words learned` : 'Goal reached!'}
+                          </div>
                         </div>
                       );
                     })}
