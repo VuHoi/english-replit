@@ -53,5 +53,14 @@ export async function registerRoutes(app: Express) {
     res.json({ success: true });
   });
 
+  app.post("/api/chat", async (req, res) => {
+    const { message } = req.body;
+    // Here you would typically integrate with an AI service
+    // For now, we'll just echo back a simple response
+    res.json({ 
+      response: `I received your message: "${message}". This is a placeholder response.` 
+    });
+  });
+
   return httpServer;
 }

@@ -53,13 +53,22 @@ export default function GamesListPage() {
         <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
           Learning Games
         </h1>
-        <Button
-          variant="outline"
-          onClick={() => navigate("/leaderboard")}
-          className="flex items-center gap-2"
-        >
-          Leaderboard
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            onClick={() => navigate("/leaderboard")}
+            className="flex items-center gap-2"
+          >
+            Leaderboard
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => navigate("/chat")}
+            className="flex items-center gap-2"
+          >
+            Chat with AI
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
