@@ -3,6 +3,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen, BookText, Mic2, PenTool, Gamepad2 } from "lucide-react";
 import TurtleProgress from "@/components/shared/TurtleProgress";
 
+// Placeholder StreakDisplay component and streak data
+const StreakDisplay = ({ currentStreak, maxStreak }) => (
+  <div>
+    Current Streak: {currentStreak} <br/>
+    Max Streak: {maxStreak}
+  </div>
+);
+
+const streak = { currentStreak: 5, maxStreak: 10 };
+
+
 export default function HomePage() {
   const [_, navigate] = useLocation();
 
@@ -54,6 +65,10 @@ export default function HomePage() {
       <h1 className="text-4xl font-bold text-center mb-8 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
         English Learning Hub
       </h1>
+
+      <div className="mb-8">
+        <StreakDisplay currentStreak={streak.currentStreak} maxStreak={streak.maxStreak} />
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
         {modules.map((module) => (

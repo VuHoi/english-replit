@@ -52,3 +52,13 @@ export type VocabularyProgress = typeof vocabularyProgress.$inferSelect;
 export type GrammarProgress = typeof grammarProgress.$inferSelect;
 export type SpeakingProgress = typeof speakingProgress.$inferSelect;
 export type WritingProgress = typeof writingProgress.$inferSelect;
+
+export const userStreak = pgTable("user_streak", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id),
+  currentStreak: integer("current_streak").notNull().default(0),
+  lastActivity: timestamp("last_activity").notNull().default(sql`CURRENT_TIMESTAMP`),
+  maxStreak: integer("max_streak").notNull().default(0),
+});
+
+export type UserStreak = typeof userStreak.$inferSelect;

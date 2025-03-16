@@ -8,6 +8,10 @@ import {
 } from "@shared/schema";
 
 export interface IStorage {
+  // Streak operations
+  getUserStreak(userId: number): Promise<UserStreak | undefined>;
+  updateUserStreak(userId: number): Promise<UserStreak>;
+  
   // User operations
   getUser(id: number): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
@@ -28,6 +32,7 @@ export interface IStorage {
 
 export class MemStorage implements IStorage {
   private users: Map<number, User>;
+  private streaks: Map<number, UserStreak>;
   private vocabProgress: Map<string, VocabularyProgress>;
   private grammarProgress: Map<string, GrammarProgress>;
   private speakingProgress: Map<string, SpeakingProgress>;
@@ -36,6 +41,7 @@ export class MemStorage implements IStorage {
 
   constructor() {
     this.users = new Map();
+    this.streaks = new Map();
     this.vocabProgress = new Map();
     this.grammarProgress = new Map();
     this.speakingProgress = new Map();
@@ -116,6 +122,52 @@ export class MemStorage implements IStorage {
       submission,
       feedback: feedback || null,
     });
+  }
+
+  async getUserStreak(userId: number): Promise<UserStreak | undefined> {
+    return this.streaks.get(userId);
+  }
+
+  async updateUserStreak(userId: number): Promise<UserStreak> {
+    const now = new Date();
+    const currentStreak = this.streaks.get(userId);
+    
+    if (!currentStreak) {
+      const newStreak: UserStreak = {
+        id: this.currentId++,
+        userId,
+        currentStreak: 1,
+        lastActivity: now,
+        maxStreak: 1
+      };
+      this.streaks.set(userId, newStreak);
+      return newStreak;
+    }
+
+    const lastActivity = new Date(currentStreak.lastActivity);
+    const daysSinceLastActivity = Math.floor((now.getTime() - lastActivity.getTime()) / (1000 * 60 * 60 * 24));
+
+    if (daysSinceLastActivity === 0) {
+      return currentStreak;
+    } else if (daysSinceLastActivity === 1) {
+      const updatedStreak: UserStreak = {
+        ...currentStreak,
+        currentStreak: currentStreak.currentStreak + 1,
+        lastActivity: now,
+        maxStreak: Math.max(currentStreak.maxStreak, currentStreak.currentStreak + 1)
+      };
+      this.streaks.set(userId, updatedStreak);
+      return updatedStreak;
+    } else {
+      const updatedStreak: UserStreak = {
+        ...currentStreak,
+        currentStreak: 1,
+        lastActivity: now,
+        maxStreak: currentStreak.maxStreak
+      };
+      this.streaks.set(userId, updatedStreak);
+      return updatedStreak;
+    }
   }
 }
 

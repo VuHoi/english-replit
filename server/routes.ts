@@ -2,6 +2,20 @@ import type { Express } from "express";
 import { createServer } from "http";
 import { storage } from "./storage";
 
+interface IStorage {
+  getVocabularyProgress(userId: number): Promise<any>;
+  updateVocabularyProgress(userId: number, wordId: number, learned: boolean): Promise<void>;
+  getGrammarProgress(userId: number): Promise<any>;
+  updateGrammarProgress(userId: number, lessonId: number, completed: boolean, score: number): Promise<void>;
+  getSpeakingProgress(userId: number): Promise<any>;
+  updateSpeakingProgress(userId: number, exerciseId: number, completed: boolean, recordingUrl: string): Promise<void>;
+  getWritingProgress(userId: number): Promise<any>;
+  updateWritingProgress(userId: number, promptId: number, submission: string, feedback: string): Promise<void>;
+  getUserStreak(userId: number): Promise<{ currentStreak: number; maxStreak: number } | null>;
+  updateUserStreak(userId: number): Promise<{ currentStreak: number; maxStreak: number }>;
+}
+
+
 export async function registerRoutes(app: Express) {
   const httpServer = createServer(app);
 
@@ -55,11 +69,20 @@ export async function registerRoutes(app: Express) {
 
   app.post("/api/chat", async (req, res) => {
     const { message } = req.body;
-    // Here you would typically integrate with an AI service
-    // For now, we'll just echo back a simple response
-    res.json({ 
-      response: `I received your message: "${message}". This is a placeholder response.` 
-    });
+    res.json({ response: `I received your message: "${message}". This is a placeholder response.` });
+  });
+
+  // Streak endpoints
+  app.get('/api/streak', async (req, res) => {
+    const userId = 1; // Replace with actual user ID from auth
+    const streak = await storage.getUserStreak(userId);
+    res.json(streak || { currentStreak: 0, maxStreak: 0 });
+  });
+
+  app.post('/api/streak/update', async (req, res) => {
+    const userId = 1; // Replace with actual user ID from auth
+    const updatedStreak = await storage.updateUserStreak(userId);
+    res.json(updatedStreak);
   });
 
   return httpServer;
