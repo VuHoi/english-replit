@@ -2,7 +2,10 @@
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, User, Mail, Calendar, Star } from "lucide-react";
+import { ArrowLeft, User, Mail, Calendar as CalendarIcon, Star } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Calendar } from "@/components/ui/calendar";
+import { useState } from "react";
 
 export default function ProfilePage() {
   const [_, navigate] = useLocation();
@@ -30,6 +33,10 @@ export default function ProfilePage() {
         >
           <ArrowLeft className="h-4 w-4" />
         </Button>
+        <Avatar className="h-12 w-12 mr-4">
+          <AvatarImage src="https://github.com/shadcn.png" />
+          <AvatarFallback>{userData.name.charAt(0)}</AvatarFallback>
+        </Avatar>
         <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
           User Profile
         </h1>
@@ -56,6 +63,22 @@ export default function ProfilePage() {
               <Calendar className="h-4 w-4 text-muted-foreground" />
               <span>Joined: {userData.joinDate}</span>
             </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <CalendarIcon className="h-5 w-5" />
+              Learning Progress
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Calendar
+              mode="multiple"
+              selected={[new Date(2024, 0, 15), new Date(2024, 0, 16)]}
+              className="rounded-md border"
+            />
           </CardContent>
         </Card>
 
