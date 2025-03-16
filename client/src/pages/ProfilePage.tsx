@@ -8,7 +8,7 @@ import { useState } from "react";
 
 export default function ProfilePage() {
   const [_, navigate] = useLocation();
-  const [view, setView] = useState<'week' | 'month'>('month');
+  const [view, setView] = useState<'week' | 'month' | 'year'>('month');
 
   // Example user data - replace with real data from your backend
   const userData = {
@@ -76,6 +76,7 @@ export default function ProfilePage() {
                   <div className="flex gap-2">
                     <Button variant="outline" size="sm" onClick={() => setView('week')}>Week</Button>
                     <Button variant="outline" size="sm" onClick={() => setView('month')}>Month</Button>
+                    <Button variant="outline" size="sm" onClick={() => setView('year')}>Year</Button>
                   </div>
                 </div>
               </CardHeader>
@@ -107,7 +108,7 @@ export default function ProfilePage() {
                       );
                     })}
                   </div>
-                ) : (
+                ) : view === 'month' ? (
                   <div className="grid grid-cols-7 gap-2">
                     {Array.from({ length: new Date(
                       new Date().getFullYear(),
@@ -138,6 +139,8 @@ export default function ProfilePage() {
                       );
                     })}
                   </div>
+                ) : (
+                  <p>Year view not yet implemented</p> // Placeholder for year view
                 )}
               </CardContent>
             </Card>
