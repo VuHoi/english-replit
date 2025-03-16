@@ -140,31 +140,31 @@ export default function ProfilePage() {
                     })}
                   </div>
                 ) : (
-                  <div className="flex flex-col gap-1">
-                    <div className="grid grid-cols-[auto_repeat(52,1fr)] gap-1">
-                      <div className="w-20"></div>
-                      {Array.from({ length: 52 }, (_, i) => (
-                        <div key={i} className="text-xs text-center">W{i + 1}</div>
+                  <div className="h-[calc(100vh-200px)] overflow-auto">
+                    <div className="grid grid-cols-7 gap-1 mb-1">
+                      {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => (
+                        <div key={day} className="text-xs text-center font-medium">{day}</div>
                       ))}
                     </div>
-                    {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, i) => (
-                      <div key={day} className="grid grid-cols-[auto_repeat(52,1fr)] gap-1">
-                        <div className="w-20 text-sm">{day}</div>
-                        {Array.from({ length: 52 }, (_, weekIndex) => {
-                          const isSelected = weekIndex < 10;
-                          return (
-                            <div
-                              key={weekIndex}
-                              className={`h-6 rounded-sm flex items-center justify-center text-xs transition-all ${
-                                isSelected
-                                  ? 'bg-gradient-to-br from-purple-600 via-amber-400 to-emerald-400 text-white shadow-sm'
-                                  : 'bg-muted hover:bg-muted/80'
-                              }`}
-                            />
-                          );
-                        })}
-                      </div>
-                    ))}
+                    <div className="grid grid-rows-[repeat(52,1fr)] gap-1">
+                      {Array.from({ length: 52 }, (_, weekIndex) => (
+                        <div key={weekIndex} className="grid grid-cols-7 gap-1">
+                          {Array.from({ length: 7 }, (_, dayIndex) => {
+                            const isSelected = weekIndex < 10;
+                            return (
+                              <div
+                                key={dayIndex}
+                                className={`h-6 rounded-sm flex items-center justify-center text-xs transition-all ${
+                                  isSelected
+                                    ? 'bg-gradient-to-br from-purple-600 via-amber-400 to-emerald-400 text-white shadow-sm'
+                                    : 'bg-muted hover:bg-muted/80'
+                                }`}
+                              />
+                            );
+                          })}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
               </CardContent>
