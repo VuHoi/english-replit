@@ -36,7 +36,7 @@ export default function HomePage() {
       title: "Speaking",
       description: "Practice pronunciation and conversation skills.",
       icon: <Mic2 className="h-5 w-5" />,
-      path: "/speaking",
+      path: "/speaking/courses",
       progress: 15,
     },
     {

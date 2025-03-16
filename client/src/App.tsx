@@ -15,6 +15,8 @@ import ChatPage from "@/pages/ChatPage";
 import GrammarCoursesPage from "@/pages/GrammarCoursesPage";
 
 import GrammarDetailPage from "@/pages/GrammarDetailPage";
+import SpeakingCoursesPage from "@/pages/SpeakingCoursesPage";
+import SpeakingDetailPage from "@/pages/SpeakingDetailPage";
 
 function Router() {
   return (
