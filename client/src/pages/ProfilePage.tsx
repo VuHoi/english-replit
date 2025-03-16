@@ -89,6 +89,7 @@ export default function ProfilePage() {
                         .some(selectedDate => 
                           selectedDate.toDateString() === date.toDateString()
                         );
+                      const isSaturday = date.getDay() === 6;
 
                       return (
                         <div
@@ -96,7 +97,9 @@ export default function ProfilePage() {
                           className={`h-20 rounded-lg flex items-center justify-center transition-all ${
                             isSelected 
                               ? 'animate-gradient bg-[size:400%] bg-gradient-to-br from-primary via-purple-500 to-pink-500 text-primary-foreground shadow-lg shadow-primary/20 scale-105 border-2 border-primary/20' 
-                              : 'bg-muted hover:bg-muted/80'
+                              : isSaturday 
+                                ? 'bg-gradient-to-br from-purple-600 via-amber-400 to-emerald-400 text-white shadow-lg scale-105 border border-amber-200/30'
+                                : 'bg-muted hover:bg-muted/80'
                           }`}
                         >
                           {date.toLocaleDateString('en-US', { weekday: 'short' })}
