@@ -74,11 +74,13 @@ export default function ProfilePage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <Calendar
-              mode="multiple"
-              selected={[new Date(2024, 0, 15), new Date(2024, 0, 16)]}
-              className="rounded-md border"
-            />
+            <div className="w-full overflow-auto">
+              <Calendar
+                mode="multiple"
+                selected={[new Date(2024, 0, 15), new Date(2024, 0, 16)]}
+                className="rounded-md border w-auto min-w-[320px]"
+              />
+            </div>
           </CardContent>
         </Card>
 
