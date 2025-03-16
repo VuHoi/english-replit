@@ -93,8 +93,10 @@ export default function ProfilePage() {
                       return (
                         <div
                           key={i}
-                          className={`h-20 rounded-lg flex items-center justify-center ${
-                            isSelected ? 'bg-primary text-primary-foreground' : 'bg-muted'
+                          className={`h-20 rounded-lg flex items-center justify-center transition-all ${
+                            isSelected 
+                              ? 'bg-gradient-to-br from-primary/90 to-primary text-primary-foreground shadow-lg shadow-primary/20 scale-105 border-2 border-primary/20' 
+                              : 'bg-muted hover:bg-muted/80'
                           }`}
                         >
                           {date.toLocaleDateString('en-US', { weekday: 'short' })}
@@ -119,8 +121,10 @@ export default function ProfilePage() {
                       return (
                         <div
                           key={i}
-                          className={`h-12 rounded-lg flex items-center justify-center ${
-                            isSelected ? 'bg-primary text-primary-foreground' : 'bg-muted'
+                          className={`h-12 rounded-lg flex items-center justify-center transition-all ${
+                            isSelected 
+                              ? 'bg-gradient-to-br from-primary/90 to-primary text-primary-foreground shadow-lg shadow-primary/20 scale-105 border-2 border-primary/20' 
+                              : 'bg-muted hover:bg-muted/80'
                           }`}
                         >
                           {i + 1}
