@@ -93,7 +93,9 @@ export default function CategoryGamePage() {
       }, 1000);
       return () => clearInterval(timer);
     } else if (timeLeft === 0 && !selectedOption) {
-      handleNextWord();
+      setSelectedOption(-1); // Use -1 to indicate timeout
+      setIsCorrect(false);
+      setTimeout(handleNextWord, 1500);
     }
   }, [timeLeft, selectedOption]);
 
@@ -233,12 +235,12 @@ export default function CategoryGamePage() {
                     transition={{ delay: index * 0.1 }}
                   >
                     <Button
-                      variant={selectedOption === index
+                      variant={selectedOption === index || (selectedOption === -1 && options[index].isCorrect)
                         ? (options[index].isCorrect ? "default" : "destructive")
                         : "outline"
                       }
                       className={`w-full min-h-[60px] p-4 text-left transition-all hover:scale-105 ${
-                        selectedOption !== null && options[index].isCorrect
+                        (selectedOption !== null && options[index].isCorrect) || (selectedOption === -1 && options[index].isCorrect)
                           ? "ring-2 ring-green-500"
                           : ""
                       }`}
