@@ -1,7 +1,7 @@
 import { useLocation } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen, BookText, Mic2, PenTool, Gamepad2 } from "lucide-react";
-import TurtleProgress from "@/components/TurtleProgress";
+import TurtleProgress from "@/components/shared/TurtleProgress";
 
 export default function HomePage() {
   const [_, navigate] = useLocation();

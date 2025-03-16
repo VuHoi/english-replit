@@ -7,7 +7,11 @@ interface TurtleProgressProps {
   label?: string;
 }
 
-export function TurtleProgress({ value, max, label }: TurtleProgressProps) {
+export  function TurtleProgress({
+  value,
+  max,
+  label,
+}: TurtleProgressProps) {
   const percentage = Math.round((value / max) * 100);
   return (
     <div className="w-full space-y-2">
@@ -254,3 +258,5 @@ export function TurtleProgress({ value, max, label }: TurtleProgressProps) {
     </div>
   );
 }
+
+export default TurtleProgress;

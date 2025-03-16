@@ -1,5 +1,5 @@
 import { Switch, Route } from "wouter";
-import { queryClient } from "./lib/queryClient"; 
+import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import HomePage from "@/pages/HomePage";
@@ -10,7 +10,6 @@ import SpeakingPage from "@/pages/SpeakingPage";
 import WritingPage from "@/pages/WritingPage";
 import CategoryGamePage from "@/pages/CategoryGamePage";
 import GamesListPage from "@/pages/GamesListPage"; // Added import
-
 
 function Router() {
   return (
@@ -41,21 +40,3 @@ function App() {
 }
 
 export default App;
-
-// Minimal GamesListPage component -  Needs further development to meet full requirements
-const GamesListPage = () => {
-  return (
-    <div>
-      <h1>Game List</h1>
-      <ul>
-        <li>
-          <span role="img" aria-label="Game Icon">🤔</span>{' '}
-          Đoán từ dựa vào mô tả
-        </li>
-        {/* Add more games here */}
-      </ul>
-    </div>
-  );
-};
-
-export default GamesListPage;
