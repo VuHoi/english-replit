@@ -9,6 +9,7 @@ import { useState } from "react";
 
 export default function ProfilePage() {
   const [_, navigate] = useLocation();
+  const [view, setView] = useState<'week' | 'month'>('month');
 
   // Example user data - replace with real data from your backend
   const userData = {
@@ -66,21 +67,35 @@ export default function ProfilePage() {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <CalendarIcon className="h-5 w-5" />
-              Learning Progress
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="p-0">
-            <Calendar
-              mode="multiple"
-              selected={[new Date(2024, 0, 15), new Date(2024, 0, 16)]}
-              className="w-full rounded-md"
-            />
-          </CardContent>
-        </Card>
+        <div className="space-y-4">
+          <h2 className="text-xl font-semibold flex items-center gap-2">
+            <CalendarIcon className="h-5 w-5" />
+            Learning Progress Calendar
+          </h2>
+          
+          <div className="flex flex-col gap-4">
+            <Card>
+              <CardHeader>
+                <div className="flex justify-between items-center">
+                  <CardTitle>Completion Days</CardTitle>
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="sm" onClick={() => setView('week')}>Week</Button>
+                    <Button variant="outline" size="sm" onClick={() => setView('month')}>Month</Button>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <Calendar
+                  mode="multiple"
+                  selected={[new Date(2024, 0, 15), new Date(2024, 0, 16)]}
+                  className="w-full"
+                  showOutsideDays={true}
+                  ISOWeek={view === 'week'}
+                />
+              </CardContent>
+            </Card>
+          </div>
+        </div>
 
         <Card>
           <CardHeader>
