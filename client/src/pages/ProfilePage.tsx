@@ -140,44 +140,31 @@ export default function ProfilePage() {
                     })}
                   </div>
                 ) : (
-                  <div className="grid grid-cols-3 gap-4">
-                    {Array.from({ length: 12 }, (_, monthIndex) => {
-                      const daysInMonth = new Date(
-                        new Date().getFullYear(),
-                        monthIndex + 1,
-                        0
-                      ).getDate();
-
-                      return (
-                        <div key={monthIndex} className="space-y-2">
-                          <div className="text-sm font-medium">
-                            {new Date(2024, monthIndex).toLocaleString('default', { month: 'long' })}
-                          </div>
-                          <div className="grid grid-cols-7 gap-1">
-                            {Array.from({ length: daysInMonth }, (_, i) => {
-                              const date = new Date(2024, monthIndex, i + 1);
-                              const isSelected = [new Date(2024, 0, 15), new Date(2024, 0, 16)]
-                                .some(selectedDate =>
-                                  selectedDate.toDateString() === date.toDateString()
-                                );
-                              
-                              return (
-                                <div
-                                  key={i}
-                                  className={`h-6 w-6 rounded-sm flex items-center justify-center text-xs transition-all ${
-                                    isSelected
-                                      ? 'bg-gradient-to-br from-purple-600 via-amber-400 to-emerald-400 text-white shadow-sm scale-105'
-                                      : 'bg-muted hover:bg-muted/80'
-                                  }`}
-                                >
-                                  {i + 1}
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      );
-                    })}
+                  <div className="flex flex-col gap-1">
+                    <div className="grid grid-cols-[auto_repeat(52,1fr)] gap-1">
+                      <div className="w-20"></div>
+                      {Array.from({ length: 52 }, (_, i) => (
+                        <div key={i} className="text-xs text-center">W{i + 1}</div>
+                      ))}
+                    </div>
+                    {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, i) => (
+                      <div key={day} className="grid grid-cols-[auto_repeat(52,1fr)] gap-1">
+                        <div className="w-20 text-sm">{day}</div>
+                        {Array.from({ length: 52 }, (_, weekIndex) => {
+                          const isSelected = weekIndex < 10;
+                          return (
+                            <div
+                              key={weekIndex}
+                              className={`h-6 rounded-sm flex items-center justify-center text-xs transition-all ${
+                                isSelected
+                                  ? 'bg-gradient-to-br from-purple-600 via-amber-400 to-emerald-400 text-white shadow-sm'
+                                  : 'bg-muted hover:bg-muted/80'
+                              }`}
+                            />
+                          );
+                        })}
+                      </div>
+                    ))}
                   </div>
                 )}
               </CardContent>
