@@ -12,7 +12,7 @@ export default function HomePage() {
       title: "Vocabulary",
       description: "Learn new words and expand your vocabulary.",
       icon: <BookText className="h-5 w-5" />,
-      path: "/vocabulary",
+      path: "/topics",
       progress: 35,
     },
     {
@@ -20,7 +20,7 @@ export default function HomePage() {
       title: "Grammar",
       description: "Master English grammar rules and structures.",
       icon: <BookOpen className="h-5 w-5" />,
-      path: "/topics",
+      path: "/grammar",
       progress: 20,
     },
     {
@@ -36,7 +36,7 @@ export default function HomePage() {
       title: "Speaking",
       description: "Practice pronunciation and conversation skills.",
       icon: <Mic2 className="h-5 w-5" />,
-      path: "/topics",
+      path: "/speaking",
       progress: 15,
     },
     {
@@ -44,7 +44,7 @@ export default function HomePage() {
       title: "Writing",
       description: "Develop your writing skills with practical exercises.",
       icon: <PenTool className="h-5 w-5" />,
-      path: "/topics",
+      path: "/writing",
       progress: 10,
     },
   ];
