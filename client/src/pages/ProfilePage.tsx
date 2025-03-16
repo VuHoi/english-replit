@@ -140,7 +140,45 @@ export default function ProfilePage() {
                     })}
                   </div>
                 ) : (
-                  <p>Year view not yet implemented</p> // Placeholder for year view
+                  <div className="grid grid-cols-3 gap-4">
+                    {Array.from({ length: 12 }, (_, monthIndex) => {
+                      const daysInMonth = new Date(
+                        new Date().getFullYear(),
+                        monthIndex + 1,
+                        0
+                      ).getDate();
+
+                      return (
+                        <div key={monthIndex} className="space-y-2">
+                          <div className="text-sm font-medium">
+                            {new Date(2024, monthIndex).toLocaleString('default', { month: 'long' })}
+                          </div>
+                          <div className="grid grid-cols-7 gap-1">
+                            {Array.from({ length: daysInMonth }, (_, i) => {
+                              const date = new Date(2024, monthIndex, i + 1);
+                              const isSelected = [new Date(2024, 0, 15), new Date(2024, 0, 16)]
+                                .some(selectedDate =>
+                                  selectedDate.toDateString() === date.toDateString()
+                                );
+                              
+                              return (
+                                <div
+                                  key={i}
+                                  className={`h-6 w-6 rounded-sm flex items-center justify-center text-xs transition-all ${
+                                    isSelected
+                                      ? 'bg-gradient-to-br from-purple-600 via-amber-400 to-emerald-400 text-white shadow-sm scale-105'
+                                      : 'bg-muted hover:bg-muted/80'
+                                  }`}
+                                >
+                                  {i + 1}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 )}
               </CardContent>
             </Card>
