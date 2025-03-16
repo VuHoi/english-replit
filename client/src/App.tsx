@@ -14,6 +14,8 @@ import LeaderboardPage from "@/pages/LeaderboardPage";
 import ChatPage from "@/pages/ChatPage";
 import GrammarCoursesPage from "@/pages/GrammarCoursesPage";
 
+import GrammarDetailPage from "@/pages/GrammarDetailPage";
+
 function Router() {
   return (
     <Switch>
