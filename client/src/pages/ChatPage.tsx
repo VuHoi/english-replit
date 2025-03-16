@@ -94,12 +94,19 @@ export default function ChatPage() {
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault();
-                  handleSubmit();
+                  if (!isLoading && input.trim()) {
+                    handleSubmit();
+                  }
                 }
               }}
             />
             <Button
-              onClick={handleSubmit}
+              onClick={(e) => {
+                e.preventDefault();
+                if (!isLoading && input.trim()) {
+                  handleSubmit();
+                }
+              }}
               disabled={isLoading || !input.trim()}
               className="self-end"
             >
