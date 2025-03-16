@@ -18,6 +18,7 @@ import GrammarDetailPage from "@/pages/GrammarDetailPage";
 import SpeakingCoursesPage from "@/pages/SpeakingCoursesPage";
 import SpeakingDetailPage from "@/pages/SpeakingDetailPage";
 import SpeakingGamePage from "@/pages/SpeakingGamePage";
+import ProfilePage from "@/pages/ProfilePage";
 
 function Router() {
   return (
