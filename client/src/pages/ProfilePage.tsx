@@ -95,7 +95,7 @@ export default function ProfilePage() {
                           key={i}
                           className={`h-20 rounded-lg flex items-center justify-center transition-all ${
                             isSelected 
-                              ? 'bg-gradient-to-br from-primary/90 to-primary text-primary-foreground shadow-lg shadow-primary/20 scale-105 border-2 border-primary/20' 
+                              ? 'animate-gradient bg-[size:400%] bg-gradient-to-br from-primary via-purple-500 to-pink-500 text-primary-foreground shadow-lg shadow-primary/20 scale-105 border-2 border-primary/20' 
                               : 'bg-muted hover:bg-muted/80'
                           }`}
                         >
@@ -123,7 +123,7 @@ export default function ProfilePage() {
                           key={i}
                           className={`h-12 rounded-lg flex items-center justify-center transition-all ${
                             isSelected 
-                              ? 'bg-gradient-to-br from-primary/90 to-primary text-primary-foreground shadow-lg shadow-primary/20 scale-105 border-2 border-primary/20' 
+                              ? 'animate-gradient bg-[size:400%] bg-gradient-to-br from-primary via-purple-500 to-pink-500 text-primary-foreground shadow-lg shadow-primary/20 scale-105 border-2 border-primary/20' 
                               : 'bg-muted hover:bg-muted/80'
                           }`}
                         >
