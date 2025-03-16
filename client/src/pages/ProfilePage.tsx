@@ -80,14 +80,55 @@ export default function ProfilePage() {
                 </div>
               </CardHeader>
               <CardContent className="p-4">
-                <Calendar
-                  mode="multiple"
-                  selected={[new Date(2024, 0, 15), new Date(2024, 0, 16)]}
-                  className="w-full"
-                  showOutsideDays={false}
-                  numberOfMonths={1}
-                  defaultMonth={new Date()}
-                />
+                {view === 'week' ? (
+                  <div className="grid grid-cols-7 gap-2">
+                    {Array.from({ length: 7 }, (_, i) => {
+                      const date = new Date();
+                      date.setDate(date.getDate() - date.getDay() + i);
+                      const isSelected = [new Date(2024, 0, 15), new Date(2024, 0, 16)]
+                        .some(selectedDate => 
+                          selectedDate.toDateString() === date.toDateString()
+                        );
+                      
+                      return (
+                        <div
+                          key={i}
+                          className={`h-20 rounded-lg flex items-center justify-center ${
+                            isSelected ? 'bg-primary text-primary-foreground' : 'bg-muted'
+                          }`}
+                        >
+                          {date.toLocaleDateString('en-US', { weekday: 'short' })}
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-7 gap-2">
+                    {Array.from({ length: new Date(
+                      new Date().getFullYear(),
+                      new Date().getMonth() + 1,
+                      0
+                    ).getDate() }, (_, i) => {
+                      const date = new Date();
+                      date.setDate(i + 1);
+                      const isSelected = [new Date(2024, 0, 15), new Date(2024, 0, 16)]
+                        .some(selectedDate => 
+                          selectedDate.toDateString() === date.toDateString()
+                        );
+                      
+                      return (
+                        <div
+                          key={i}
+                          className={`h-12 rounded-lg flex items-center justify-center ${
+                            isSelected ? 'bg-primary text-primary-foreground' : 'bg-muted'
+                          }`}
+                        >
+                          {i + 1}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>
