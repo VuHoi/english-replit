@@ -6,13 +6,12 @@ import TurtleProgress from "@/components/shared/TurtleProgress";
 // Placeholder StreakDisplay component and streak data
 const StreakDisplay = ({ currentStreak, maxStreak }) => (
   <div>
-    Current Streak: {currentStreak} <br/>
+    Current Streak: {currentStreak} <br />
     Max Streak: {maxStreak}
   </div>
 );
 
 const streak = { currentStreak: 5, maxStreak: 10 };
-
 
 export default function HomePage() {
   const [_, navigate] = useLocation();
@@ -63,19 +62,16 @@ export default function HomePage() {
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
-          Welcome to Language Learning
-        </h1>
-        <img 
-          src="https://via.placeholder.com/50" // Placeholder avatar
-          alt="Avatar" 
+        <img
+          src="https://github.com/shadcn.png" // Placeholder avatar
+          alt="Avatar"
           className="h-10 w-10 cursor-pointer hover:opacity-80 transition-opacity rounded-full"
           onClick={() => navigate("/profile")}
         />
-      </div>
-
-      <div className="mb-8">
-        <StreakDisplay currentStreak={streak.currentStreak} maxStreak={streak.maxStreak} />
+        <StreakDisplay
+          currentStreak={streak.currentStreak}
+          maxStreak={streak.maxStreak}
+        />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
