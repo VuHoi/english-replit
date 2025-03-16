@@ -140,17 +140,11 @@ export default function ProfilePage() {
                     })}
                   </div>
                 ) : (
-                  <div className="flex flex-col gap-1">
-                    <div className="grid grid-cols-[auto_repeat(52,1fr)] gap-1">
-                      <div className="w-20"></div>
-                      {Array.from({ length: 52 }, (_, i) => (
-                        <div key={i} className="text-xs text-center">W{i + 1}</div>
-                      ))}
-                    </div>
-                    {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, i) => (
-                      <div key={day} className="grid grid-cols-[auto_repeat(52,1fr)] gap-1">
-                        <div className="w-20 text-sm">{day}</div>
-                        {Array.from({ length: 52 }, (_, weekIndex) => {
+                  <div className="w-full h-[calc(100vh-200px)]">
+                    <div className="grid grid-rows-7 w-full h-full gap-0.5">
+                      {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((_, dayIndex) => (
+                        <div key={dayIndex} className="grid grid-cols-52 gap-0.5">
+                          {Array.from({ length: 52 }, (_, weekIndex) => {
                           const isSelected = weekIndex < 10;
                           return (
                             <div
