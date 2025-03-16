@@ -41,7 +41,7 @@ export default function GamesListPage() {
 
   return (
     <div className="container mx-auto py-8 px-4">
-      <div className="flex items-center mb-6">
+      <div className="flex items-center justify-between mb-6">
         <Button
           variant="outline"
           size="icon"
@@ -53,6 +53,13 @@ export default function GamesListPage() {
         <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
           Learning Games
         </h1>
+        <Button
+          variant="outline"
+          onClick={() => navigate("/leaderboard")}
+          className="flex items-center gap-2"
+        >
+          Leaderboard
+        </Button>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
