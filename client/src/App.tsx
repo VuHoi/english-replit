@@ -12,6 +12,7 @@ import CategoryGamePage from "@/pages/CategoryGamePage";
 import GamesListPage from "@/pages/GamesListPage";
 import LeaderboardPage from "@/pages/LeaderboardPage";
 import ChatPage from "@/pages/ChatPage";
+import GrammarCoursesPage from "@/pages/GrammarCoursesPage";
 
 function Router() {
   return (
@@ -26,6 +27,7 @@ function Router() {
       <Route path="/games" component={GamesListPage} />
       <Route path="/leaderboard" component={LeaderboardPage} />
       <Route path="/chat" component={ChatPage} />
+      <Route path="/grammar/courses" component={GrammarCoursesPage} />
       {/* Keep the NotFound route as fallback */}
       <Route component={() => <div>404 Not Found</div>} />
     </Switch>
