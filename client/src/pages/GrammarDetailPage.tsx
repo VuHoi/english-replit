@@ -72,7 +72,7 @@ export default function GrammarDetailPage() {
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground">{lesson.content}</p>
-              <Button className="mt-4" onClick={() => navigate(`/grammar/lesson/${id}/${index}`)}>
+              <Button className="mt-4" onClick={() => navigate(`/grammar`)}>
                 Start Lesson
               </Button>
             </CardContent>
