@@ -84,14 +84,17 @@ export default function ProfilePage() {
                   </div>
                 </div>
               </CardHeader>
-              <CardContent>
-                <Calendar
-                  mode="multiple"
-                  selected={[new Date(2024, 0, 15), new Date(2024, 0, 16)]}
-                  className="w-full"
-                  showOutsideDays={true}
-                  ISOWeek={view === 'week'}
-                />
+              <CardContent className="p-4">
+                <div className="max-w-sm mx-auto">
+                  <Calendar
+                    mode="multiple"
+                    selected={[new Date(2024, 0, 15), new Date(2024, 0, 16)]}
+                    className="w-full"
+                    showOutsideDays={false}
+                    numberOfMonths={1}
+                    defaultMonth={new Date()}
+                  />
+                </div>
               </CardContent>
             </Card>
           </div>
