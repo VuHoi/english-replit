@@ -62,9 +62,17 @@ export default function HomePage() {
 
   return (
     <div className="container mx-auto py-8 px-4">
-      <h1 className="text-4xl font-bold text-center mb-8 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-        English Learning Hub
-      </h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+          Welcome to Language Learning
+        </h1>
+        <img 
+          src="https://via.placeholder.com/50" // Placeholder avatar
+          alt="Avatar" 
+          className="h-10 w-10 cursor-pointer hover:opacity-80 transition-opacity rounded-full"
+          onClick={() => navigate("/profile")}
+        />
+      </div>
 
       <div className="mb-8">
         <StreakDisplay currentStreak={streak.currentStreak} maxStreak={streak.maxStreak} />
