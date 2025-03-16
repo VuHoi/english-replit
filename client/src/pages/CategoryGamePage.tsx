@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -41,7 +40,7 @@ export default function CategoryGamePage() {
 
   useEffect(() => {
     if (!currentWord) return;
-    
+
     const questionTypes: QuestionType[] = ['definition', 'example', 'audio', 'context'];
     const newQuestionType = questionTypes[Math.floor(Math.random() * questionTypes.length)];
     setCurrentQuestionType(newQuestionType);
@@ -167,10 +166,16 @@ export default function CategoryGamePage() {
             Vocabulary Quiz
           </h1>
           <motion.div 
-            className="ml-auto text-lg font-semibold"
+            className="ml-auto flex items-center gap-3"
             animate={{ scale: score % 20 === 0 ? [1, 1.2, 1] : 1 }}
           >
-            Score: <span className="text-primary">{score}</span>
+            <div className="bg-white/20 backdrop-blur-lg rounded-full px-4 py-2 flex items-center gap-2">
+              <span className="text-white/80">Score:</span>
+              <span className="text-2xl font-bold text-white">{score}</span>
+            </div>
+            <div className="bg-white/20 backdrop-blur-lg rounded-full px-4 py-2">
+              <span className="text-xl font-bold text-white">{timeLeft}s</span>
+            </div>
           </motion.div>
         </div>
 
