@@ -7,7 +7,7 @@ import { vocabulary } from "@/data/content";
 import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
 
-type QuestionType = 'definition' | 'example' | 'audio' | 'context';
+type QuestionType = 'definition' | 'example' | 'audio' | 'context' | 'image';
 
 type Option = {
   text: string;
@@ -41,7 +41,7 @@ export default function CategoryGamePage() {
   useEffect(() => {
     if (!currentWord) return;
 
-    const questionTypes: QuestionType[] = ['definition', 'example', 'audio', 'context'];
+    const questionTypes: QuestionType[] = ['definition', 'example', 'audio', 'context', 'image'];
     const newQuestionType = questionTypes[Math.floor(Math.random() * questionTypes.length)];
     setCurrentQuestionType(newQuestionType);
 
@@ -145,6 +145,8 @@ export default function CategoryGamePage() {
         return "Choose the word that fits this example:";
       case 'context':
         return "Select the word that matches this context:";
+      case 'image':
+        return "What does this image represent?";
       default:
         return "Choose the correct definition:";
     }
@@ -209,6 +211,17 @@ export default function CategoryGamePage() {
                     </Button>
                     <p className="text-center text-sm text-gray-500">
                       Click to play audio
+                    </p>
+                  </div>
+                ) : currentQuestionType === 'image' ? (
+                  <div className="flex flex-col items-center gap-4">
+                    <img 
+                      src={currentWord?.imageUrl} 
+                      alt="Question" 
+                      className="w-full max-w-[300px] h-auto rounded-lg shadow-lg object-cover"
+                    />
+                    <p className="text-center text-sm text-gray-500">
+                      Choose the word that matches this image
                     </p>
                   </div>
                 ) : (
