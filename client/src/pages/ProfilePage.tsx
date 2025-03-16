@@ -73,14 +73,12 @@ export default function ProfilePage() {
               Learning Progress
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="w-full overflow-auto">
-              <Calendar
-                mode="multiple"
-                selected={[new Date(2024, 0, 15), new Date(2024, 0, 16)]}
-                className="rounded-md border w-auto min-w-[320px]"
-              />
-            </div>
+          <CardContent className="p-0">
+            <Calendar
+              mode="multiple"
+              selected={[new Date(2024, 0, 15), new Date(2024, 0, 16)]}
+              className="w-full rounded-md"
+            />
           </CardContent>
         </Card>
 
