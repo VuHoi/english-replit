@@ -1,272 +1,189 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ArrowLeft, Trophy, RefreshCw } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useLocation } from "wouter";
 import { vocabulary } from "@/data/content";
 import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
 
+type Option = {
+  text: string;
+  type: 'definition' | 'example' | 'context';
+  isCorrect: boolean;
+};
+
 export default function CategoryGamePage() {
   const [_, navigate] = useLocation();
-  const [categories, setCategories] = useState<string[]>([]);
-  const [currentCategories, setCurrentCategories] = useState<string[]>([]);
-  const [words, setWords] = useState<any[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedWord, setSelectedWord] = useState<string | null>(null);
-  const [matches, setMatches] = useState<Record<string, string>>({});
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(10);
   const [score, setScore] = useState(0);
-  const [showResults, setShowResults] = useState(false);
+  const [showResult, setShowResult] = useState(false);
+  const [options, setOptions] = useState<Option[]>([]);
+  const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+  const [gameWords, setGameWords] = useState(
+    vocabulary.words
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 10)
+  );
 
-  // Extract unique topics from vocabulary data
+  const currentWord = gameWords[currentWordIndex];
+
   useEffect(() => {
-    const uniqueTopics = [
-      ...new Set(
-        vocabulary.words
-          .filter((word) => word.topic)
-          .map((word) => word.topic as string),
-      ),
-    ];
-    setCategories(uniqueTopics);
-    startNewRound();
-  }, []);
+    if (!currentWord) return;
 
-  const startNewRound = () => {
-    // Select 3 random categories
-    const shuffledCategories = [...categories].sort(() => Math.random() - 0.5);
-    const selectedCategories = shuffledCategories.slice(0, 3);
-    setCurrentCategories(selectedCategories);
+    // Generate options for current word
+    const correctOption = Math.floor(Math.random() * 4);
+    const newOptions: Option[] = [];
 
-    // Get 2 words from each category
-    const gameWords: any[] = [];
-    selectedCategories.forEach((category) => {
-      const categoryWords = vocabulary.words
-        .filter((word) => word.topic === category)
-        .sort(() => Math.random() - 0.5)
-        .slice(0, 2);
-      gameWords.push(...categoryWords);
-    });
+    // Get random words for wrong options
+    const otherWords = vocabulary.words
+      .filter(w => w.id !== currentWord.id)
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 3);
 
-    // Shuffle the words
-    setWords(gameWords.sort(() => Math.random() - 0.5));
-    setSelectedCategory(null);
-    setSelectedWord(null);
-    setMatches({});
+    for (let i = 0; i < 4; i++) {
+      if (i === correctOption) {
+        newOptions.push({
+          text: currentWord.definition,
+          type: 'definition',
+          isCorrect: true
+        });
+      } else {
+        const wrongWord = otherWords[i > correctOption ? i - 1 : i];
+        if (wrongWord) { //added null check
+          newOptions.push({
+            text: wrongWord.definition,
+            type: 'definition',
+            isCorrect: false
+          });
+        }
+      }
+    }
+
+    setOptions(newOptions);
+    setTimeLeft(10);
+    setSelectedOption(null);
     setIsCorrect(null);
-    setShowResults(false);
+  }, [currentWordIndex, gameWords]); //added gameWords to dependency array
+
+  useEffect(() => {
+    if (timeLeft > 0 && !selectedOption) {
+      const timer = setInterval(() => {
+        setTimeLeft(t => t - 1);
+      }, 1000);
+      return () => clearInterval(timer);
+    } else if (timeLeft === 0 && !selectedOption) {
+      handleNextWord();
+    }
+  }, [timeLeft, selectedOption]);
+
+  const handleOptionSelect = (index: number) => {
+    if (selectedOption !== null) return;
+
+    setSelectedOption(index);
+    const correct = options[index].isCorrect;
+    setIsCorrect(correct);
+
+    if (correct) {
+      setScore(s => s + 10);
+      confetti({
+        particleCount: 50,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    } else {
+      // Added feedback for incorrect answer.
+      alert("Incorrect!");
+    }
+
+    setTimeout(handleNextWord, 1500);
   };
 
-  const handleCategoryClick = (category: string) => {
-    if (Object.values(matches).includes(category)) return;
-
-    setSelectedCategory(category);
-    if (selectedWord) {
-      // Check if match is correct
-      const word = words.find((w) => w.id === selectedWord);
-      const isMatch = word.topic === category;
-
-      // Update state
-      if (isMatch) {
-        setMatches((prev) => ({ ...prev, [selectedWord]: category }));
-        setScore((prev) => prev + 10);
-        setIsCorrect(true);
-        if (Object.keys(matches).length + 1 === words.length) {
-          setTimeout(() => {
-            confetti({
-              particleCount: 100,
-              spread: 70,
-              origin: { y: 0.6 },
-            });
-            setShowResults(true);
-          }, 1000);
-        }
-      } else {
-        setIsCorrect(false);
-        if (score > 0) setScore((prev) => prev - 5);
-      }
-
-      // Reset selections after a brief delay
-      setTimeout(() => {
-        setSelectedWord(null);
-        setSelectedCategory(null);
-        setIsCorrect(null);
-      }, 1000);
+  const handleNextWord = () => {
+    if (currentWordIndex === gameWords.length - 1) {
+      setShowResult(true);
+    } else {
+      setCurrentWordIndex(i => i + 1);
     }
   };
 
-  const handleWordClick = (wordId: string) => {
-    if (matches[wordId]) return;
-
-    setSelectedWord(wordId);
-    if (selectedCategory) {
-      // Check if match is correct
-      const word = words.find((w) => w.id === wordId);
-      const isMatch = word.topic === selectedCategory;
-
-      // Update state
-      if (isMatch) {
-        setMatches((prev) => ({ ...prev, [wordId]: selectedCategory }));
-        setScore((prev) => prev + 10);
-        setIsCorrect(true);
-        if (Object.keys(matches).length + 1 === words.length) {
-          setTimeout(() => {
-            confetti({
-              particleCount: 100,
-              spread: 70,
-              origin: { y: 0.6 },
-            });
-            setShowResults(true);
-          }, 1000);
-        }
-      } else {
-        setIsCorrect(false);
-        if (score > 0) setScore((prev) => prev - 5);
-      }
-
-      // Reset selections after a brief delay
-      setTimeout(() => {
-        setSelectedWord(null);
-        setSelectedCategory(null);
-        setIsCorrect(null);
-      }, 1000);
-    }
+  const startNewGame = () => {
+    setGameWords(
+      vocabulary.words
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 10)
+    );
+    setCurrentWordIndex(0);
+    setScore(0);
+    setShowResult(false);
   };
 
   return (
     <div className="container mx-auto py-8 px-4">
-      <div className="flex items-center mb-6 sticky top-0 z-10 py-4 bg-background">
+      <div className="flex items-center mb-6">
         <Button
           variant="outline"
           size="icon"
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/games")}
           className="mr-4"
         >
           <ArrowLeft className="h-4 w-4" />
         </Button>
         <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
-          Category Game 
+          Vocabulary Preview
         </h1>
-        <div className="ml-auto flex items-center gap-2">
-          <span className="font-semibold">
-            Score: <span className="text-primary">{score}</span>
-          </span>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={startNewRound}
-            className="ml-2"
-          >
-            <RefreshCw className="h-4 w-4" />
-          </Button>
+        <div className="ml-auto">
+          Score: <span className="text-primary font-bold">{score}</span>
         </div>
       </div>
 
-      <AnimatePresence>
-        {isCorrect !== null && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            className={`p-3 rounded-md text-white text-center mb-4 ${isCorrect ? "bg-green-500" : "bg-red-500"}`}
-          >
-            {isCorrect ? "Correct match!" : "Wrong match, try again!"}
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {!showResults ? (
-        <div className="grid gap-8">
-          {/* Categories Section */}
-          <div>
-            <h2 className="text-xl font-semibold mb-3">Categories</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {currentCategories.map((category) => {
-                const isSelected = selectedCategory === category;
-                const isMatched = Object.values(matches).includes(category);
-                const matchCount = Object.values(matches).filter(
-                  (c) => c === category,
-                ).length;
-
-                return (
-                  <Card
-                    key={category}
-                    className={`p-4 cursor-pointer transition-all duration-300 ${
-                      isSelected ? "ring-2 ring-primary ring-offset-2" : ""
-                    } ${isMatched && matchCount >= 2 ? "opacity-60 bg-green-50 dark:bg-green-950" : ""}`}
-                    onClick={() => handleCategoryClick(category)}
-                  >
-                    <h3 className="text-lg font-medium">{category}</h3>
-                    {matchCount > 0 && (
-                      <div className="text-xs mt-1 text-green-600">
-                        {matchCount}/2 words matched
-                      </div>
-                    )}
-                  </Card>
-                );
-              })}
-            </div>
+      {!showResult ? (
+        <div className="max-w-2xl mx-auto">
+          <div className="mb-4 h-2 bg-gray-200 rounded">
+            <div
+              className="h-full bg-primary rounded transition-all duration-1000"
+              style={{ width: `${(timeLeft / 10) * 100}%` }}
+            />
           </div>
 
-          {/* Words Section */}
-          <div>
-            <h2 className="text-xl font-semibold mb-3">Words</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {words.map((word) => {
-                const isSelected = selectedWord === word.id;
-                const isMatched = Boolean(matches[word.id]);
+          <Card className="p-6 mb-6">
+            <h2 className="text-3xl font-bold text-center mb-2">
+              {currentWord?.word}
+            </h2>
+            <p className="text-center text-gray-500 mb-4">
+              {currentWord?.phonetic}
+            </p>
+          </Card>
 
-                return (
-                  <Card
-                    key={word.id}
-                    className={`p-4 cursor-pointer transition-all duration-300 ${
-                      isSelected ? "ring-2 ring-primary ring-offset-2" : ""
-                    } ${isMatched ? "opacity-60 bg-green-50 dark:bg-green-950" : ""}`}
-                    onClick={() => handleWordClick(word.id)}
-                  >
-                    <h3 className="text-lg font-medium">{word.word}</h3>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {word.definition.substring(0, 80)}
-                      {word.definition.length > 80 ? "..." : ""}
-                    </p>
-                    {isMatched && (
-                      <div className="text-xs mt-2 text-green-600">
-                        Matched to {matches[word.id]}
-                      </div>
-                    )}
-                  </Card>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="text-center text-sm text-muted-foreground mt-4">
-            Match words to their correct categories.
-            <br />
-            +10 points for correct matches, -5 points for incorrect matches.
+          <div className="grid grid-cols-2 gap-4">
+            {options.map((option, index) => (
+              <Button
+                key={index}
+                variant={selectedOption === index
+                  ? (options[index].isCorrect ? "default" : "destructive")
+                  : "outline"
+                }
+                className={`h-auto p-4 text-left ${
+                  selectedOption !== null && options[index].isCorrect
+                    ? "ring-2 ring-green-500"
+                    : ""
+                }`}
+                onClick={() => handleOptionSelect(index)}
+              >
+                {option.text}
+              </Button>
+            ))}
           </div>
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center p-8">
-          <div className="mb-4">
-            <Trophy className="h-16 w-16 text-yellow-500" />
-          </div>
-          <h2 className="text-2xl font-bold mb-2">Round Complete!</h2>
-          <p className="text-lg mb-4">
-            Your score: <span className="font-bold text-primary">{score}</span>
+        <div className="text-center">
+          <h2 className="text-3xl font-bold mb-4">Game Over!</h2>
+          <p className="text-xl mb-6">
+            Final Score: <span className="text-primary font-bold">{score}</span>
           </p>
-
-          <Button className="mt-4" onClick={startNewRound}>
-            Play Again
-          </Button>
-
-          <Button
-            variant="outline"
-            className="mt-2"
-            onClick={() => navigate("/")}
-          >
-            Back to Home
-          </Button>
+          <Button onClick={startNewGame}>Play Again</Button>
         </div>
       )}
     </div>
