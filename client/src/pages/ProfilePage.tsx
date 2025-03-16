@@ -123,7 +123,7 @@ export default function ProfilePage() {
                           key={i}
                           className={`h-12 rounded-lg flex items-center justify-center transition-all group relative ${
                             i < 10 
-                              ? 'bg-gradient-to-br from-green-400 via-emerald-500 to-purple-500 text-white shadow-lg scale-105' 
+                              ? 'bg-gradient-to-br from-purple-600 via-amber-400 to-emerald-400 text-white shadow-lg scale-105 border border-amber-200/30' 
                               : 'bg-muted hover:bg-muted/80'
                           }`}
                         >
