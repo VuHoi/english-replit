@@ -89,7 +89,7 @@ export default function ProfilePage() {
                         .some(selectedDate => 
                           selectedDate.toDateString() === date.toDateString()
                         );
-                      
+
                       return (
                         <div
                           key={i}
@@ -117,14 +117,14 @@ export default function ProfilePage() {
                         .some(selectedDate => 
                           selectedDate.toDateString() === date.toDateString()
                         );
-                      
+
                       return (
                         <div
                           key={i}
                           className={`h-12 rounded-lg flex items-center justify-center transition-all ${
                             isSelected 
                               ? 'animate-gradient bg-[size:400%] bg-gradient-to-br from-primary via-purple-500 to-pink-500 text-primary-foreground shadow-lg shadow-primary/20 scale-105 border-2 border-primary/20' 
-                              : 'bg-muted hover:bg-muted/80'
+                              : 'animate-pulse bg-gradient-to-br from-red-400 to-red-600 text-white shadow-md'
                           }`}
                         >
                           {i + 1}
