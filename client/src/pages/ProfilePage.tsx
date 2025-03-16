@@ -141,10 +141,9 @@ export default function ProfilePage() {
                   </div>
                 ) : (
                   <div className="h-[calc(100vh-200px)] overflow-auto">
-                    <div className="grid grid-cols-[auto_repeat(52,1fr)] gap-1">
-                      {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => (
-                        <div key={day} className="space-y-1">
-                          <div className="text-xs font-medium w-12">{day}</div>
+                    <div className="grid grid-cols-52 gap-1">
+                      {Array.from({ length: 7 }, (_, dayIndex) => (
+                        <div key={dayIndex} className="grid grid-cols-52 gap-1">
                           {Array.from({ length: 52 }, (_, weekIndex) => {
                             const isSelected = weekIndex < 10;
                             return (
