@@ -94,14 +94,6 @@ export default function CategoryGamePage() {
     } else if (timeLeft === 0 && !selectedOption) {
       setSelectedOption(-1); // Use -1 to indicate timeout
       setIsCorrect(false);
-      // Play error sound or show visual feedback
-      confetti({
-        particleCount: 20,
-        spread: 50,
-        origin: { y: 0.6 },
-        colors: ['#EF4444'], // Red color for incorrect
-        gravity: 1.5
-      });
       setTimeout(handleNextWord, 1500);
     }
   }, [timeLeft, selectedOption]);
