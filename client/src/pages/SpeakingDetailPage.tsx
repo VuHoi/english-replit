@@ -72,7 +72,7 @@ export default function SpeakingDetailPage() {
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground">{lesson.content}</p>
-              <Button className="mt-4" onClick={() => navigate(`/speaking`)}>
+              <Button className="mt-4" onClick={() => navigate(`/speaking/game`)}>
                 Start Lesson
               </Button>
             </CardContent>
